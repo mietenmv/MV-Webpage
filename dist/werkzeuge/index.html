@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Werkzeuge mieten | MV-Vermietung</title>
+  <meta name="description" content="Alle Werkzeuge von MV-Vermietung mit Filter, Suche und Sortierung.">
+  <link rel="icon" type="image/svg+xml" href="../assets/brand/favicon.svg">
+  <link rel="stylesheet" href="../styles.css">
+  <script defer src="../app.js"></script>
+  <link rel="canonical" href="../werkzeuge/index.html">
+</head>
+<body class="catalog-page">
+  <header class="site-header">
+    <a class="brand" href="../index.html">
+      <img src="../assets/brand/logo-mv-vermietung.png" alt="MV-Vermietung Logo">
+      <span>
+        <strong>MV-Vermietung</strong>
+        <small>Langenfeld</small>
+      </span>
+    </a>
+    <nav aria-label="Hauptnavigation">
+      <a href="../werkzeuge/index.html">Werkzeuge</a>
+      <a href="../index.html#ueber-uns">Über uns</a>
+      <a href="../index.html#kontakt">Kontakt</a>
+      <a href="https://maps.app.goo.gl/PXeYtEjLhdmM5ucu6">Route</a>
+    </nav>
+    <a class="header-phone" href="tel:+491633623280">0163-3623280</a>
+  </header>
+  <main>
+    <section class="page-hero compact">
+    <span class="eyebrow">Werkzeugübersicht</span>
+    <h1>Werkzeug mieten in Langenfeld</h1>
+    <p>Filtere nach Kategorie, suche nach Werkzeugen und sortiere nach Beliebtheit oder Preis.</p>
+  </section>
+  <section class="catalog-controls" aria-label="Werkzeuge filtern">
+    <label>Suche
+      <input type="search" id="tool-search" placeholder="Rollgerüst, Rüttelplatte ...">
+    </label>
+    <label>Kategorie
+      <select id="category-filter">
+        <option value="all">Alle Kategorien</option>
+        <option value="Leiter &amp; Gerüst">Leiter &amp; Gerüst</option><option value="Handwerkzeuge">Handwerkzeuge</option><option value="Garten">Garten</option><option value="Heizung/Solar">Heizung/Solar</option><option value="Messen">Messen</option>
+      </select>
+    </label>
+    <label>Sortierung
+      <select id="sort-tools">
+        <option value="popularity">Beliebtheit</option>
+        <option value="price">Preis aufsteigend</option>
+        <option value="category">Kategorie</option>
+      </select>
+    </label>
+  </section>
+  <section class="tool-grid catalog-grid" id="tool-list">
+    <article class="tool-card" data-category="Leiter &amp; Gerüst" data-title="rollgerüst" data-price="30" data-popularity="100" data-preview-src="../assets/tools/rollgeruest/Rollgeruest-gesamt-7,5m-seilzug-01.png" data-preview-alt="Rollgerüst mit Seilzug bei 7,5 m Arbeitshöhe">
+    <a href="../werkzeuge/rollgeruest/index.html" class="tool-card-media">
+      <img src="../assets/tools/rollgeruest/Rollgeruest-gesamt-7,5m-seilzug-01.png" alt="Rollgerüst mit Seilzug bei 7,5 m Arbeitshöhe">
+    </a>
+    <div class="tool-card-body">
+      <span class="pill">Leiter &amp; Gerüst</span>
+      <h3><a href="../werkzeuge/rollgeruest/index.html">Rollgerüst</a></h3>
+      <p>Aluminium-Rollgerüst von Krause für Fassadenarbeiten, Fenster, Gartenarbeiten und Innenbereiche.</p>
+      <div class="card-meta">
+        <strong>ab 30,00 € / Tag</strong>
+        <span>Kaution 300,00 €</span>
+      </div>
+      <a class="text-link" href="../werkzeuge/rollgeruest/index.html">Details ansehen</a>
+    </div>
+  </article><article class="tool-card" data-category="Garten" data-title="rüttelplatte 77 kg" data-price="25" data-popularity="105" data-preview-src="../assets/tools/ruettelplatte/Ruettelplatte-01.png" data-preview-alt="Rüttelplatte 77 kg – Ansicht 1">
+    <a href="../werkzeuge/ruettelplatte/index.html" class="tool-card-media">
+      <img src="../assets/tools/ruettelplatte/Ruettelplatte-01.png" alt="Rüttelplatte 77 kg – Ansicht 1">
+    </a>
+    <div class="tool-card-body">
+      <span class="pill">Garten</span>
+      <h3><a href="../werkzeuge/ruettelplatte/index.html">Rüttelplatte 77 kg</a></h3>
+      <p>Kompakte Rüttelplatte für Pflaster, Wege, Höfe und Verdichtungsarbeiten rund um Haus und Garten.</p>
+      <div class="card-meta">
+        <strong>ab 25,00 € / Tag</strong>
+        <span>Kaution 150,00&nbsp;€</span>
+      </div>
+      <a class="text-link" href="../werkzeuge/ruettelplatte/index.html">Details ansehen</a>
+    </div>
+  </article><article class="tool-card" data-category="Handwerkzeuge" data-title="abbruchhammer 10,1 kg" data-price="30" data-popularity="104" data-preview-src="../assets/tools/abbruchhammer/Abbruchhamer-01.png" data-preview-alt="Abbruchhammer – Bild 1">
+    <a href="../werkzeuge/abbruchhammer/index.html" class="tool-card-media">
+      <img src="../assets/tools/abbruchhammer/Abbruchhamer-01.png" alt="Abbruchhammer – Bild 1">
+    </a>
+    <div class="tool-card-body">
+      <span class="pill">Handwerkzeuge</span>
+      <h3><a href="../werkzeuge/abbruchhammer/index.html">Abbruchhammer 10,1 kg</a></h3>
+      <p>Stemmhammer / Abbruchhammer inklusive Meißel für Beton, Estrich, Fliesen und Stemmarbeiten.</p>
+      <div class="card-meta">
+        <strong>ab 30,00 € / Tag</strong>
+        <span>Kaution 200,00 €</span>
+      </div>
+      <a class="text-link" href="../werkzeuge/abbruchhammer/index.html">Details ansehen</a>
+    </div>
+  </article><article class="tool-card" data-category="Leiter &amp; Gerüst" data-title="treppengerüst" data-price="10" data-popularity="80" data-preview-src="../assets/tools/treppengeruest/Treppengeruest-01.png" data-preview-alt="Treppengerüst – Bild 1">
+    <a href="../werkzeuge/treppengeruest/index.html" class="tool-card-media">
+      <img src="../assets/tools/treppengeruest/Treppengeruest-01.png" alt="Treppengerüst – Bild 1">
+    </a>
+    <div class="tool-card-body">
+      <span class="pill">Leiter &amp; Gerüst</span>
+      <h3><a href="../werkzeuge/treppengeruest/index.html">Treppengerüst</a></h3>
+      <p>Aluminium-Kleingerüst für Treppenhäuser, unebene Standorte und Arbeiten in der Höhe.</p>
+      <div class="card-meta">
+        <strong>ab 10,00&nbsp;€ / Tag</strong>
+        <span>Kaution 50,00 €</span>
+      </div>
+      <a class="text-link" href="../werkzeuge/treppengeruest/index.html">Details ansehen</a>
+    </div>
+  </article><article class="tool-card" data-category="Leiter &amp; Gerüst" data-title="treppenleiter" data-price="20" data-popularity="72" data-preview-src="../assets/tools/treppenleiter/Treppenleiter-01.png" data-preview-alt="Treppenleiter – Bild 1">
+    <a href="../werkzeuge/treppenleiter/index.html" class="tool-card-media">
+      <img src="../assets/tools/treppenleiter/Treppenleiter-01.png" alt="Treppenleiter – Bild 1">
+    </a>
+    <div class="tool-card-body">
+      <span class="pill">Leiter &amp; Gerüst</span>
+      <h3><a href="../werkzeuge/treppenleiter/index.html">Treppenleiter</a></h3>
+      <p>Treppenleiter / Anlegeleiter für Renovierung, Malerarbeiten und Arbeiten im Treppenhaus.</p>
+      <div class="card-meta">
+        <strong>ab 20,00&nbsp;€ / Tag</strong>
+        <span>Kaution 150,00 €</span>
+      </div>
+      <a class="text-link" href="../werkzeuge/treppenleiter/index.html">Details ansehen</a>
+    </div>
+  </article><article class="tool-card" data-category="Garten" data-title="hochentaster" data-price="20" data-popularity="70" data-preview-src="../assets/tools/hochentaster/hochentaster-01.png" data-preview-alt="Hochentaster – Bild 1">
+    <a href="../werkzeuge/hochentaster/index.html" class="tool-card-media">
+      <img src="../assets/tools/hochentaster/hochentaster-01.png" alt="Hochentaster – Bild 1">
+    </a>
+    <div class="tool-card-body">
+      <span class="pill">Garten</span>
+      <h3><a href="../werkzeuge/hochentaster/index.html">Hochentaster</a></h3>
+      <p>Makita Akku-Multitool DUX60 als Hochentaster für Baumschnitt und Gartenpflege.</p>
+      <div class="card-meta">
+        <strong>ab 20,00 € / Tag</strong>
+        <span>Kaution 150,00 €</span>
+      </div>
+      <a class="text-link" href="../werkzeuge/hochentaster/index.html">Details ansehen</a>
+    </div>
+  </article><article class="tool-card" data-category="Garten" data-title="heckenschere" data-price="20" data-popularity="68" data-preview-src="../assets/tools/heckenschere/heckenschere-01.png" data-preview-alt="Heckenschere – Bild 1">
+    <a href="../werkzeuge/heckenschere/index.html" class="tool-card-media">
+      <img src="../assets/tools/heckenschere/heckenschere-01.png" alt="Heckenschere – Bild 1">
+    </a>
+    <div class="tool-card-body">
+      <span class="pill">Garten</span>
+      <h3><a href="../werkzeuge/heckenschere/index.html">Heckenschere</a></h3>
+      <p>Makita DUX60 als Teleskop-Heckenschere für hohe Hecken und Gartenarbeiten.</p>
+      <div class="card-meta">
+        <strong>ab 20,00 € / Tag</strong>
+        <span>Kaution 150,00 €</span>
+      </div>
+      <a class="text-link" href="../werkzeuge/heckenschere/index.html">Details ansehen</a>
+    </div>
+  </article><article class="tool-card" data-category="Heizung/Solar" data-title="spülstation für solarthermie" data-price="30" data-popularity="64" data-preview-src="../assets/tools/spuelstation/Spuelstation-01.png" data-preview-alt="Spülstation – Bild 1">
+    <a href="../werkzeuge/spuelstation-solarthermie/index.html" class="tool-card-media">
+      <img src="../assets/tools/spuelstation/Spuelstation-01.png" alt="Spülstation – Bild 1">
+    </a>
+    <div class="tool-card-body">
+      <span class="pill">Heizung/Solar</span>
+      <h3><a href="../werkzeuge/spuelstation-solarthermie/index.html">Spülstation für Solarthermie</a></h3>
+      <p>Befüll- und Spülstation für Solarthermie, Fußbodenheizung und geschlossene Heizsysteme.</p>
+      <div class="card-meta">
+        <strong>ab 30,00 € / Tag</strong>
+        <span>Kaution 150,00 €</span>
+      </div>
+      <a class="text-link" href="../werkzeuge/spuelstation-solarthermie/index.html">Details ansehen</a>
+    </div>
+  </article><article class="tool-card" data-category="Leiter &amp; Gerüst" data-title="zimmergerüst" data-price="30" data-popularity="58">
+    <a href="../werkzeuge/zimmergeruest/index.html" class="tool-card-media">
+      <img src="../assets/brand/logo-mv-vermietung.png" alt="MV-Vermietung Logo">
+    </a>
+    <div class="tool-card-body">
+      <span class="pill">Leiter &amp; Gerüst</span>
+      <h3><a href="../werkzeuge/zimmergeruest/index.html">Zimmergerüst</a></h3>
+      <p>Kompaktes Gerüst für Innenarbeiten, Decken, Wände, Malerarbeiten und Renovierung.</p>
+      <div class="card-meta">
+        <strong>ab 30,00 € / Tag</strong>
+        <span>Kaution 300,00 €</span>
+      </div>
+      <a class="text-link" href="../werkzeuge/zimmergeruest/index.html">Details ansehen</a>
+    </div>
+  </article>
+  <article class="tool-card" data-category="Handwerkzeuge" data-title="akku-schlagschrauber" data-price="15" data-popularity="55" data-preview-src="../assets/brand/logo-mv-vermietung.png" data-preview-alt="MV-Vermietung Logo – Platzhalter">
+    <a href="../werkzeuge/akku-schlagschrauber/index.html" class="tool-card-media"><img src="../assets/brand/logo-mv-vermietung.png" alt="MV-Vermietung Logo – Platzhalter"></a><div class="tool-card-body"><span class="pill">Handwerkzeuge</span><h3><a href="../werkzeuge/akku-schlagschrauber/index.html">Akku-Schlagschrauber</a></h3><p>Bosch Professional Akku-Schlagschrauber mit 1/2″-Aufnahme und bis zu 350 Nm Drehmoment für Arbeiten rund um Haus, Garage und Fahrzeug.</p><div class="card-meta"><strong>ab 15,00&nbsp;€ / Tag</strong><span>Kaution 150,00&nbsp;€</span></div><a class="text-link" href="../werkzeuge/akku-schlagschrauber/index.html">Details ansehen</a></div>
+  </article><article class="tool-card" data-category="Messen" data-title="stromzange" data-price="5" data-popularity="54" data-preview-src="../assets/tools/stromzange/stromzange-01.png" data-preview-alt="Stromzange – Bild 1"><a href="../werkzeuge/stromzange/index.html" class="tool-card-media"><img src="../assets/tools/stromzange/stromzange-01.png" alt="Stromzange – Bild 1"></a><div class="tool-card-body"><span class="pill">Messen</span><h3><a href="../werkzeuge/stromzange/index.html">Stromzange</a></h3><p>Digitale Stromzange für elektrische Messungen an Anlagen, Photovoltaik und Fahrzeugen.</p><div class="card-meta"><strong>ab 5,00&nbsp;€ / Tag</strong><span>Kaution 50,00&nbsp;€</span></div><a class="text-link" href="../werkzeuge/stromzange/index.html">Details ansehen</a></div></article>
+  <article class="tool-card" data-category="Garten" data-title="handstampfer 15 kg" data-price="5" data-popularity="53"><a href="../werkzeuge/handstampfer/index.html" class="tool-card-media"><img src="../assets/brand/logo-mv-vermietung.png" alt="MV-Vermietung Logo – Platzhalter"></a><div class="tool-card-body"><span class="pill">Garten</span><h3><a href="../werkzeuge/handstampfer/index.html">Handstampfer 15 kg</a></h3><p>Zum Verdichten kleiner Flächen, Kanten und schmaler Stellen.</p><div class="card-meta"><strong>ab 5,00&nbsp;€ / Tag</strong><span>Kaution 50,00&nbsp;€</span></div><a class="text-link" href="../werkzeuge/handstampfer/index.html">Details ansehen</a></div></article>
+  <article class="tool-card" data-category="Garten" data-title="anwärmbrenner gasbrenner" data-price="5" data-popularity="52" data-preview-src="../assets/tools/anwaermbrenner/anwaermbrenner-01.jpg" data-preview-alt="Anwärmbrenner – Bild 1"><a href="../werkzeuge/anwaermbrenner/index.html" class="tool-card-media"><img src="../assets/tools/anwaermbrenner/anwaermbrenner-01.jpg" alt="Anwärmbrenner – Bild 1"></a><div class="tool-card-body"><span class="pill">Garten</span><h3><a href="../werkzeuge/anwaermbrenner/index.html">Anwärmbrenner/Gasbrenner</a></h3><p>Anwärmbrenner für Abflamm-, Anwärm- und Dacharbeiten sowie zur Unkraut- und Moosbeseitigung.</p><div class="card-meta"><strong>ab 5,00&nbsp;€ / Tag</strong><span>Kaution 50,00&nbsp;€</span></div><a class="text-link" href="../werkzeuge/anwaermbrenner/index.html">Details ansehen</a></div></article>
+  </section>
+  <p class="empty-state" id="empty-tools" hidden>Kein Werkzeug passt zu deiner Auswahl. Ruf gern an, oft findet sich trotzdem eine Lösung.</p>
+  <section class="contact-band" id="kontakt">
+    <div>
+      <span class="eyebrow">Schnell anfragen</span>
+      <h2>Am einfachsten per Telefon oder WhatsApp.</h2>
+      <p>Schreib kurz, welches Werkzeug du brauchst und für welchen Zeitraum. Nutze dafür gerne die vorgefertigte Nachricht im Kontaktformular, mit wenigen Klicks sind alle benötigten Infos enthalten. Bei Abholung bitte Kaution, Mietpreis und Personalausweis einplanen.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="tel:+491633623280">0163-3623280</a>
+        <a class="btn whatsapp" href="https://wa.me/491633623280?text=Hallo%2C%20ich%20habe%20eine%20Frage%20zu%20einem%20Werkzeug.">WhatsApp schreiben</a>
+        <a class="btn ghost" href="https://maps.app.goo.gl/PXeYtEjLhdmM5ucu6">Route planen</a>
+      </div>
+    </div>
+        <form class="contact-form" data-contact-form>
+      <label>Werkzeug
+        <select name="tool">
+          <option value="">Bitte Werkzeug auswählen</option>
+          <option data-popularity="100">Rollgerüst</option>
+          <option data-popularity="105">Rüttelplatte 77 kg</option>
+          <option data-popularity="104">Abbruchhammer 10,1 kg</option>
+          <option data-popularity="80">Treppengerüst</option>
+          <option data-popularity="72">Treppenleiter</option>
+          <option data-popularity="70">Hochentaster Makita DUX60</option>
+          <option data-popularity="68">Heckenschere Makita DUX60</option>
+          <option data-popularity="64">Spülstation für Solarthermie</option>
+          <option data-popularity="58">Zimmergerüst</option>
+        </select>
+      </label>
+      <fieldset class="date-range">
+        <legend>Mietzeitraum</legend>
+        <label>Von
+          <input type="date" name="start-date" data-start-date required>
+        </label>
+        <label>Bis
+          <input type="date" name="end-date" data-end-date required>
+        </label>
+      </fieldset>
+      <label>Nachricht
+        <textarea name="message" rows="6" placeholder="Die Nachricht wird nach Auswahl automatisch vorbereitet."></textarea>
+      </label>
+      <p class="form-error" data-form-error role="alert" hidden></p>
+      <div class="form-actions">
+        <button class="btn whatsapp" type="submit" data-channel="whatsapp">Per WhatsApp vorbereiten</button>
+        <button class="btn secondary" type="submit" data-channel="mailto">Als E-Mail vorbereiten</button>
+      </div>
+      <p class="form-note">Das Formular öffnet deine WhatsApp- oder E-Mail-App. Es speichert keine Daten.</p>
+    </form>
+  </section>
+  </main>
+  <footer class="site-footer">
+    <div>
+      <strong>MV-Vermietung</strong>
+      <p>40764 Langenfeld · Werkzeugverleih für Haus, Garten und Renovierung.</p>
+    </div>
+    <div class="footer-links">
+      <a href="tel:+491633623280">0163-3623280</a>
+      <a href="https://wa.me/491633623280?text=Hallo%2C%20ich%20m%C3%B6chte%20ein%20Werkzeug%20mieten.">WhatsApp</a>
+      <a href="../impressum/index.html">Impressum</a>
+      <a href="../datenschutz/index.html">Datenschutz</a>
+    </div>
+  </footer>
+  <div class="mobile-contact" aria-label="Schnellkontakt">
+    <a href="tel:+491633623280">Anrufen</a>
+    <a href="https://wa.me/491633623280?text=Hallo%2C%20ich%20m%C3%B6chte%20ein%20Werkzeug%20mieten.">WhatsApp</a>
+    <a href="../index.html#ueber-uns">Über uns</a>
+    <a href="../werkzeuge/index.html">Werkzeuge</a>
+  </div>
+</body>
+</html>
