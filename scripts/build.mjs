@@ -6,6 +6,8 @@ import { business, categories, tools } from "../src/data/tools.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const dist = path.join(root, "dist");
+const siteBase = process.env.SITE_BASE || "";
+const publicUrl = (url) => `${siteBase}${url}`;
 const publicDir = path.join(root, "public");
 const toolsDir = path.join(dist, "werkzeuge");
 
@@ -19,7 +21,7 @@ const htmlEscape = (value = "") =>
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
 
-const slugUrl = (slug) => `/werkzeuge/${slug}/`;
+const slugUrl = (slug) => `${siteBase}/werkzeuge/${slug}/`;
 const fromRoot = (pagePath) => {
   const parts = pagePath.split("/").filter(Boolean);
   return parts.length === 0 ? "." : Array(parts.length).fill("..").join("/");
@@ -39,7 +41,7 @@ function jsonData(tool) {
 
 function layout({ title, description, page = "/", body, extraClass = "" }) {
   const prefix = fromRoot(page);
-  const canonical = page === "/" ? "/" : page;
+  const canonical = `${siteBase}${page}`;
   return `<!doctype html>
 <html lang="de">
 <head>
@@ -100,7 +102,7 @@ function toolCard(tool, featured = false) {
   const price = lowestPrice(tool);
   return `<article class="tool-card${featured ? " featured-card" : ""}" data-category="${htmlEscape(tool.category)}" data-title="${htmlEscape(tool.title.toLowerCase())}" data-price="${price ?? 999999}" data-popularity="${tool.popularity}">
     <a href="${slugUrl(tool.slug)}" class="tool-card-media">
-      <img src="${tool.images[0].src}" alt="${htmlEscape(tool.images[0].alt)}">
+      <img src="${publicUrl(tool.images[0].src)}" alt="${htmlEscape(tool.images[0].alt)}">
     </a>
     <div class="tool-card-body">
       <span class="pill">${htmlEscape(tool.category)}</span>
@@ -215,18 +217,18 @@ function homePage() {
       <div class="cta-row">
         <a class="btn primary" href="tel:${business.phoneHref}">Jetzt anrufen</a>
         <a class="btn whatsapp" href="${whatsAppUrl("Hallo, ich interessiere mich für eine Werkzeugmiete.")}">WhatsApp</a>
-        <a class="btn ghost" href="/werkzeuge/">Alle Werkzeuge</a>
+        <a class="btn ghost" href="${siteBase}/werkzeuge/">Alle Werkzeuge</a>
       </div>
     </div>
     <div class="hero-logo">
-      <img src="${business.logo}" alt="${business.name} Logo">
+      <img src="${publicUrl(business.logo)}" alt="${business.name} Logo">
     </div>
   </section>
   <section class="quick-tools">
     <div class="section-heading">
       <span class="eyebrow">Oft angefragt</span>
       <h2>Beliebte Werkzeuge direkt oben.</h2>
-      <a class="text-link" href="/werkzeuge/">Zur kompletten Werkzeugübersicht</a>
+      <a class="text-link" href="${siteBase}/werkzeuge/">Zur kompletten Werkzeugübersicht</a>
     </div>
     <div class="tool-grid top-grid">${topTools.map((tool) => toolCard(tool, true)).join("")}</div>
   </section>
@@ -322,7 +324,7 @@ function calculator(tool) {
 function toolGallery(tool) {
   if (!["stromzange", "anwaermbrenner"].includes(tool.slug)) {
     return `<div class="gallery" aria-label="Bildergalerie">
-      ${tool.images.map((image) => `<figure><img src="${image.src}" alt="${htmlEscape(image.alt)}"></figure>`).join("")}
+      ${tool.images.map((image) => `<figure><img src="${publicUrl(image.src)}" alt="${htmlEscape(image.alt)}"></figure>`).join("")}
       <figure class="gallery-placeholder"><span>Produktfoto folgt</span></figure>
     </div>`;
   }
@@ -332,14 +334,14 @@ function toolGallery(tool) {
       <button class="gallery-arrow gallery-prev" type="button" aria-label="Vorheriges Bild" data-gallery-prev>‹</button>
       <figure class="gallery-stage">
         <button class="gallery-image-button" type="button" aria-label="Bild vergrößern" data-gallery-open>
-          <img src="${tool.images[0].src}" alt="${htmlEscape(tool.images[0].alt)}" data-gallery-image>
+          <img src="${publicUrl(tool.images[0].src)}" alt="${htmlEscape(tool.images[0].alt)}" data-gallery-image>
         </button>
       </figure>
       <button class="gallery-arrow gallery-next" type="button" aria-label="Nächstes Bild" data-gallery-next>›</button>
     </div>
     <div class="gallery-toolbar"><span data-gallery-counter>1 / ${count}</span><span>Zum Vergrößern anklicken</span></div>
     <div class="gallery-sources" data-gallery-sources>
-      ${tool.images.map((image) => `<img src="${image.src}" alt="${htmlEscape(image.alt)}" data-gallery-item>`).join("")}
+      ${tool.images.map((image) => `<img src="${publicUrl(image.src)}" alt="${htmlEscape(image.alt)}" data-gallery-item>`).join("")}
     </div>
     <div class="gallery-lightbox" data-gallery-lightbox hidden role="dialog" aria-modal="true" aria-label="Bildergalerie Vollbild">
       <button class="gallery-lightbox-close" type="button" aria-label="Vollbildansicht schließen" data-gallery-close>×</button>
@@ -355,7 +357,7 @@ function toolPage(tool) {
   const price = lowestPrice(tool);
   const body = `<section class="tool-detail-hero">
     <div>
-      <a class="back-link" href="/werkzeuge/">Alle Werkzeuge</a>
+      <a class="back-link" href="${siteBase}/werkzeuge/">Alle Werkzeuge</a>
       <span class="pill">${htmlEscape(tool.category)}</span>
       <h1>${tool.slug === "anwaermbrenner" ? "Anwärmbrenner<br>/ Gasbrenner" : htmlEscape(tool.title)}</h1>
       <p class="lead">${htmlEscape(tool.summary)}</p>
