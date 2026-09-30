@@ -8,6 +8,11 @@ const root = path.resolve(__dirname, "..");
 const dist = path.join(root, "dist");
 const siteBase = process.env.SITE_BASE || "";
 const publicUrl = (url) => `${siteBase}${url}`;
+const isToolPhoto = (url) => url.includes("/assets/tools/");
+const imageVariant = (url, width) => isToolPhoto(url) ? url.replace(/\.(?:png|jpe?g)$/i, `-${width}.webp`) : url;
+const imageSet = (url) => (isToolPhoto(url) ? [640, 1600]
+  .map((width) => `${publicUrl(imageVariant(url, width)).replaceAll(",", "%2C")} ${width}w`)
+  .join(", ") : `${publicUrl(url)} 640w`);
 const publicDir = path.join(root, "public");
 const toolsDir = path.join(dist, "werkzeuge");
 
@@ -102,7 +107,7 @@ function toolCard(tool, featured = false) {
   const price = lowestPrice(tool);
   return `<article class="tool-card${featured ? " featured-card" : ""}" data-category="${htmlEscape(tool.category)}" data-title="${htmlEscape(tool.title.toLowerCase())}" data-price="${price ?? 999999}" data-popularity="${tool.popularity}">
     <a href="${slugUrl(tool.slug)}" class="tool-card-media">
-      <img src="${publicUrl(tool.images[0].src)}" alt="${htmlEscape(tool.images[0].alt)}">
+      <img src="${publicUrl(imageVariant(tool.images[0].src, 640))}" srcset="${imageSet(tool.images[0].src)}" sizes="(max-width: 760px) 92vw, 320px" alt="${htmlEscape(tool.images[0].alt)}" loading="lazy" decoding="async">
     </a>
     <div class="tool-card-body">
       <span class="pill">${htmlEscape(tool.category)}</span>
@@ -118,7 +123,7 @@ function toolCard(tool, featured = false) {
 }
 
 function contactSection(context = "", tool = null) {
-  const isDynamicDetailContact = ["stromzange", "anwaermbrenner", "handstampfer", "akku-schlagschrauber"].includes(tool?.slug);
+  const isDynamicDetailContact = ["stromzange", "anwaermbrenner", "handstampfer", "akku-schlagschrauber", "zimmergeruest"].includes(tool?.slug);
   const contactCopy = isDynamicDetailContact
     ? "Schreib kurz, welches Werkzeug du brauchst und für welchen Zeitraum. Nutze dafür gerne die vorgefertigte Nachricht im Kontaktformular, mit wenigen Klicks sind alle benötigten Infos enthalten. Bei Abholung bitte Kaution, Mietpreis und Personalausweis einplanen."
     : "Schreib kurz, welches Werkzeug du brauchst und für wie viele Tage. Bei Abholung bitte Kaution und Mietpreis einplanen.";
@@ -286,7 +291,7 @@ function overviewPage() {
 
 function calculator(tool) {
   const hasKnownPrice = tool.options.some((option) => Number.isFinite(option.dayPrice));
-  const noSelectableExtras = ["stromzange", "anwaermbrenner"].includes(tool.slug);
+  const noSelectableExtras = ["stromzange", "anwaermbrenner", "zimmergeruest"].includes(tool.slug);
   const isSchlagschrauber = tool.slug === "akku-schlagschrauber";
   if (!hasKnownPrice) {
     return `<section class="calculator inquiry-only">
@@ -301,7 +306,7 @@ function calculator(tool) {
   }
   return `<section class="calculator" data-calculator data-tool="${jsonData(tool)}">
     <span class="eyebrow">Preisrechner</span>
-    <h2>${tool.slug === "anwaermbrenner" ? "Preisrechner Anwärmbrenner" : tool.slug === "stromzange" ? "Preisrechner Stromzange" : "Mietdauer auswählen"}</h2>
+    <h2>${tool.slug === "anwaermbrenner" ? "Preisrechner Anwärmbrenner" : tool.slug === "stromzange" ? "Preisrechner Stromzange" : tool.slug === "zimmergeruest" ? "Preisrechner Zimmergerüst" : "Mietdauer auswählen"}</h2>
     <div class="calculator-grid">
       ${isSchlagschrauber
         ? `<label>Schlagnüsse<select data-treppenleiter-additional>${tool.addons.map((addon) => `<option value="${htmlEscape(addon.id)}">${htmlEscape(addon.id === "both" ? "Beide Schlagnuss-Sets (+5,00 € pauschal)" : "Ein Schlagnuss-Set nach Wahl inklusive")}</option>`).join("")}</select></label>`
@@ -322,26 +327,20 @@ function calculator(tool) {
 }
 
 function toolGallery(tool) {
-  if (!["stromzange", "anwaermbrenner"].includes(tool.slug)) {
-    return `<div class="gallery" aria-label="Bildergalerie">
-      ${tool.images.map((image) => `<figure><img src="${publicUrl(image.src)}" alt="${htmlEscape(image.alt)}"></figure>`).join("")}
-      <figure class="gallery-placeholder"><span>Produktfoto folgt</span></figure>
-    </div>`;
-  }
   const count = tool.images.length;
   return `<div class="gallery" data-gallery aria-label="Bildergalerie">
     <div class="gallery-main">
       <button class="gallery-arrow gallery-prev" type="button" aria-label="Vorheriges Bild" data-gallery-prev>‹</button>
       <figure class="gallery-stage">
         <button class="gallery-image-button" type="button" aria-label="Bild vergrößern" data-gallery-open>
-          <img src="${publicUrl(tool.images[0].src)}" alt="${htmlEscape(tool.images[0].alt)}" data-gallery-image>
+          <img src="${publicUrl(imageVariant(tool.images[0].src, 640))}" srcset="${imageSet(tool.images[0].src)}" sizes="(max-width: 760px) 92vw, 48vw" alt="${htmlEscape(tool.images[0].alt)}" data-gallery-image fetchpriority="high" decoding="async">
         </button>
       </figure>
       <button class="gallery-arrow gallery-next" type="button" aria-label="Nächstes Bild" data-gallery-next>›</button>
     </div>
     <div class="gallery-toolbar"><span data-gallery-counter>1 / ${count}</span><span>Zum Vergrößern anklicken</span></div>
     <div class="gallery-sources" data-gallery-sources>
-      ${tool.images.map((image) => `<img src="${publicUrl(image.src)}" alt="${htmlEscape(image.alt)}" data-gallery-item>`).join("")}
+      ${tool.images.map((image) => `<img alt="${htmlEscape(image.alt)}" data-src="${publicUrl(imageVariant(image.src, 640))}" data-srcset="${imageSet(image.src)}" data-sizes="(max-width: 760px) 92vw, 48vw" data-gallery-item>`).join("")}
     </div>
     <div class="gallery-lightbox" data-gallery-lightbox hidden role="dialog" aria-modal="true" aria-label="Bildergalerie Vollbild">
       <button class="gallery-lightbox-close" type="button" aria-label="Vollbildansicht schließen" data-gallery-close>×</button>

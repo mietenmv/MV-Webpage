@@ -5,10 +5,38 @@ function encodeMessage(message) {
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 
+function makeFilePreviewLinksPortable() {
+  if (window.location.protocol !== "file:") return;
+  const appScript = document.querySelector('script[src$="app.js"]');
+  if (!appScript) return;
+  const siteRoot = new URL(".", appScript.src);
+  document.querySelectorAll('[href^="/"], [src^="/"]').forEach((element) => {
+    const attribute = element.hasAttribute("href") ? "href" : "src";
+    const value = element.getAttribute(attribute);
+    if (value) element.setAttribute(attribute, new URL(value.slice(1), siteRoot).href);
+  });
+  document.querySelectorAll('[data-src^="/"]').forEach((element) => {
+    const value = element.getAttribute("data-src");
+    if (value) element.setAttribute("data-src", new URL(value.slice(1), siteRoot).href);
+  });
+  document.querySelectorAll("[srcset], [data-srcset]").forEach((element) => {
+    for (const attribute of ["srcset", "data-srcset"]) {
+      const value = element.getAttribute(attribute);
+      if (!value) continue;
+      element.setAttribute(attribute, value.split(",").map((candidate) => {
+        const [url, ...descriptor] = candidate.trim().split(/\s+/);
+        return [url.startsWith("/") ? new URL(url.slice(1), siteRoot).href : url, ...descriptor].join(" ");
+      }).join(", "));
+    }
+  });
+}
+
 function initGalleries() {
   document.querySelectorAll("[data-gallery]").forEach((gallery) => {
     const sources = [...gallery.querySelectorAll("[data-gallery-item]")].map((image) => ({
-      src: image.getAttribute("src"),
+      src: image.dataset.src || image.getAttribute("src"),
+      srcSet: image.dataset.srcset || image.getAttribute("srcset"),
+      sizes: image.dataset.sizes || image.getAttribute("sizes"),
       alt: image.getAttribute("alt") || "Werkzeug"
     }));
     if (!sources.length) return;
@@ -29,12 +57,20 @@ function initGalleries() {
     let lastFocusedElement = null;
     const render = () => {
       const current = sources[currentIndex];
+      if (current.sizes) image.sizes = current.sizes;
+      if (current.srcSet) image.srcset = current.srcSet;
+      else image.removeAttribute("srcset");
       image.src = current.src;
       image.alt = current.alt;
       counter.textContent = `${currentIndex + 1} / ${sources.length}`;
-      lightboxImage.src = current.src;
-      lightboxImage.alt = current.alt;
-      lightboxCounter.textContent = `${currentIndex + 1} / ${sources.length}`;
+      if (!lightbox.hidden) {
+        if (current.srcSet) lightboxImage.srcset = current.srcSet;
+        else lightboxImage.removeAttribute("srcset");
+        lightboxImage.sizes = "100vw";
+        lightboxImage.src = current.src;
+        lightboxImage.alt = current.alt;
+        lightboxCounter.textContent = `${currentIndex + 1} / ${sources.length}`;
+      }
     };
     const showImage = (index) => {
       currentIndex = (index + sources.length) % sources.length;
@@ -299,7 +335,7 @@ function initAutoMessageContactForm(form) {
 
 function initContactForms() {
   document.querySelectorAll("[data-contact-form]").forEach((form) => {
-    if (["stromzange", "anwaermbrenner", "handstampfer", "akku-schlagschrauber"].includes(form.dataset.contactMode)) {
+    if (["stromzange", "anwaermbrenner", "handstampfer", "akku-schlagschrauber", "zimmergeruest"].includes(form.dataset.contactMode)) {
       initAutoMessageContactForm(form);
       return;
     }
@@ -320,6 +356,7 @@ function initContactForms() {
   });
 }
 
+makeFilePreviewLinksPortable();
 initGalleries();
 initCalculators();
 initCatalog();

@@ -16,6 +16,22 @@ function makeFilePreviewLinksPortable() {
     const originalPath = element.getAttribute(attribute);
     if (originalPath) element.setAttribute(attribute, new URL(originalPath.slice(1), siteRoot).href);
   });
+  document.querySelectorAll('[data-src^="/"]').forEach((element) => {
+    const originalPath = element.getAttribute("data-src");
+    if (originalPath) element.setAttribute("data-src", new URL(originalPath.slice(1), siteRoot).href);
+  });
+  document.querySelectorAll("[srcset], [data-srcset]").forEach((element) => {
+    for (const attribute of ["srcset", "data-srcset"]) {
+      const value = element.getAttribute(attribute);
+      if (!value) continue;
+      const portable = value.split(",").map((candidate) => {
+        const [url, ...descriptor] = candidate.trim().split(/\s+/);
+        const resolved = url.startsWith("/") ? new URL(url.slice(1), siteRoot).href : url;
+        return [resolved, ...descriptor].join(" ");
+      }).join(", ");
+      element.setAttribute(attribute, portable);
+    }
+  });
 }
 
 function initKnowledgeNavigation() {
@@ -28,7 +44,9 @@ function initKnowledgeNavigation() {
 function initGalleries() {
   document.querySelectorAll("[data-gallery]").forEach((gallery) => {
     const sources = [...gallery.querySelectorAll("[data-gallery-item]")].map((image) => ({
-      src: image.getAttribute("src"),
+      src: image.dataset.src || image.getAttribute("src"),
+      srcSet: image.dataset.srcset || image.getAttribute("srcset"),
+      sizes: image.dataset.sizes || image.getAttribute("sizes"),
       alt: image.getAttribute("alt") || "Rollgerüst"
     }));
     if (!sources.length) return;
@@ -46,10 +64,16 @@ function initGalleries() {
 
     function render() {
       const current = sources[currentIndex];
+      if (current.sizes) image.sizes = current.sizes;
+      if (current.srcSet) image.srcset = current.srcSet;
+      else image.removeAttribute("srcset");
       image.src = current.src;
       image.alt = current.alt;
       counter.textContent = `${currentIndex + 1} / ${sources.length}`;
-      if (lightboxImage) {
+      if (lightboxImage && !lightbox.hidden) {
+        if (current.srcSet) lightboxImage.srcset = current.srcSet;
+        else lightboxImage.removeAttribute("srcset");
+        lightboxImage.sizes = "100vw";
         lightboxImage.src = current.src;
         lightboxImage.alt = current.alt;
         lightboxCounter.textContent = `${currentIndex + 1} / ${sources.length}`;
@@ -484,6 +508,7 @@ function initContactForms() {
     const isAnwaermbrennerContact = contactMode === "anwaermbrenner";
     const isHandstampferContact = contactMode === "handstampfer";
     const isSchlagschrauberContact = contactMode === "schlagschrauber";
+    const isZimmergeruestContact = contactMode === "zimmergeruest";
     const isSimpleContact = contactMode === "simple";
 
     const selectedToolBeforeSort = toolInput.value;
@@ -578,7 +603,7 @@ function initContactForms() {
     }
 
     function createDraft() {
-      if (isStromzangeContact || isAnwaermbrennerContact || isHandstampferContact) {
+      if (isStromzangeContact || isAnwaermbrennerContact || isHandstampferContact || isZimmergeruestContact) {
         const hasDateRange = Boolean(startInput.value && endInput.value);
         const start = hasDateRange ? formatDate(startInput.value) : "[TT.MM.JJ]";
         const end = hasDateRange ? formatDate(endInput.value) : "[TT.MM.JJ]";
@@ -617,7 +642,7 @@ function initContactForms() {
         "Hallo MV-Vermietung,",
         `ich interessiere mich für die Miete von ${selectedToolWithAddon}.`
       ];
-    if ((isRollContact || isRuettelContact || isAbbruchContact || isTreppenleiterContact || isHochentasterContact || isHeckenschereContact || isSpuelContact || isSchlagschrauberContact || isSimpleContact || isHandstampferContact) && deliveryInput?.value === "delivery") {
+    if ((isRollContact || isRuettelContact || isAbbruchContact || isTreppenleiterContact || isHochentasterContact || isHeckenschereContact || isSpuelContact || isSchlagschrauberContact || isSimpleContact || isHandstampferContact || isZimmergeruestContact) && deliveryInput?.value === "delivery") {
         parts.push("Wenn du HIER deine Adresse einträgst, erhältst du direkt ein konkretes Angebot inkl. Lieferung.");
       }
       parts.push(`Mein gewünschter Mietzeitraum wäre vom ${formatDate(startInput.value)} bis zum ${formatDate(endInput.value)} (${dayCount} Tage).`);

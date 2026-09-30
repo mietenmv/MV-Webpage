@@ -281,26 +281,42 @@ export const tools = [
     category: "Leiter & Gerüst",
     top: false,
     popularity: 58,
-    deposit: 300,
-    sourceUrl:
-      "https://www.kleinanzeigen.de/s-anzeige/mieten-rollgeruest-ah-bis-7-5m-geruest-krause-baugeruest-seilzug/3501057430-239-1863",
+    deposit: 150,
     summary:
-      "Kompaktes Gerüst für Innenarbeiten, Decken, Wände, Malerarbeiten und Renovierung.",
+      "Kompaktes KRAUSE-Alu-Faltgerüst für Innenarbeiten, Decken, Wände, Malerarbeiten und Renovierungen.",
     description:
-      "Das Rollgerüst kann je nach Aufbau auch als Zimmergerüst für Innenbereiche genutzt werden. Praktisch für Arbeiten an Decken, Wänden und höher gelegenen Stellen.",
-    specs: ["Innenbereich geeignet", "Arbeitsbühne 2,50 m x 0,75 m", "Aufbau nach Projektbedarf"],
-    images: [{ src: "/assets/brand/logo-mv-vermietung.png", alt: "M.V. - Vermietung Logo" }],
+      "Das kompakte Zimmergerüst eignet sich besonders für Arbeiten im Innenbereich. Durch die klappbare Grundeinheit lässt es sich schnell aufbauen, einfach verschieben und platzsparend transportieren.\n\nMit einer Arbeitshöhe von ca. 2,90 m ist es praktisch für Arbeiten an Decken, Wänden und höher gelegenen Stellen. Die gebremsten Fahrrollen ermöglichen ein einfaches Verfahren auf ebenen Flächen.",
+    specs: [
+      "Arbeitshöhe bis ca. 2,90 m",
+      "Plattformhöhe ca. 0,90 m",
+      "Gerüsthöhe ca. 1,80 m",
+      "Arbeitsbühne ca. 2,00 m × 0,60 m",
+      "Belastbarkeit bis 200 kg/m²",
+      "Klappbare Grundeinheit",
+      "Gebremste Fahrrollen",
+      "Für Innen- und Außenarbeiten geeignet",
+      "Mindestmietdauer: 1 Tag",
+      "Transportmaß im gefalteten Zustand: ca. 2,15 m Länge × 1,00 m Breite × 0,35 m Tiefe",
+      "Gewicht ca. 39 kg"
+    ],
+    notes: [
+      "Das Gerüst wird sauber übergeben und sollte auch sauber zurückgegeben werden. Bei starker Verschmutzung kann eine Reinigungsgebühr anfallen.",
+      "Bei Abholung bring bitte einen gültigen Personalausweis sowie die Kaution und die Kosten für die Mietdauer mit.",
+      "Die Kaution beträgt 150,00 €.",
+      "Ein Miettag entspricht 24 Stunden. Es erfolgt keine minutengenaue Abrechnung.",
+      "Vor Ort gibt es eine Einweisung mit den wichtigsten Punkten zur Bedienung und Handhabung. Auch während der Mietzeit bin ich bei Fragen oder Problemen erreichbar.",
+      "Für den Aufbau wird keine Haftung übernommen. Der Aufbau und die Nutzung müssen entsprechend der Aufbau- und Verwendungsanleitung erfolgen.",
+      "Abholung und Anlieferung sind ausschließlich nach Absprache möglich."
+    ],
+    images: [{ src: "/assets/brand/logo-mv-vermietung.png", alt: "MV-Vermietung – Platzhalter für Zimmergerüst-Fotos" }],
+    pricingMode: "staged",
     options: [
       {
-        id: "zimmer",
+        id: "standard",
         label: "Zimmergerüst",
-        dayPrice: 30,
-        minimumDays: 2,
-        tiers: [
-          { days: 3, price: 70, label: "Wochenende" },
-          { days: 5, price: 120, label: "5 Tage" },
-          { days: 7, price: 160, label: "Woche" }
-        ]
+        dayPrice: 15,
+        minimumDays: 1,
+        tiers: []
       }
     ]
   },
