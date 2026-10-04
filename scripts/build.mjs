@@ -8,6 +8,7 @@ const root = path.resolve(__dirname, "..");
 const dist = path.join(root, "dist");
 const siteBase = process.env.SITE_BASE || "";
 const publicUrl = (url) => `${siteBase}${url}`;
+const canonicalUrl = (page) => siteBase ? `${siteBase}${page}` : "";
 const isToolPhoto = (url) => url.includes("/assets/tools/");
 const imageVariant = (url, width) => isToolPhoto(url) ? url.replace(/\.(?:png|jpe?g)$/i, `-${width}.webp`) : url;
 const imageSet = (url) => (isToolPhoto(url) ? [640, 1600]
@@ -44,9 +45,27 @@ function jsonData(tool) {
   return htmlEscape(JSON.stringify(tool));
 }
 
-function layout({ title, description, page = "/", body, extraClass = "" }) {
+function layout({ title, description, page = "/", body, extraClass = "", structuredData = null }) {
   const prefix = fromRoot(page);
-  const canonical = `${siteBase}${page}`;
+  const canonical = canonicalUrl(page);
+  const businessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: business.name,
+    telephone: business.phoneHref,
+    url: canonicalUrl("/"),
+    image: siteBase ? `${siteBase}${business.logo}` : undefined,
+    logo: siteBase ? `${siteBase}${business.logo}` : undefined,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Langenfeld",
+      postalCode: "40764",
+      addressCountry: "DE"
+    },
+    areaServed: { "@type": "City", name: "Langenfeld" },
+  };
+  const schemas = siteBase ? [businessSchema, ...(structuredData ? [structuredData] : [])] : [];
+  const schemaScript = schemas.length ? `<script type="application/ld+json">${JSON.stringify(schemas).replaceAll("<", "\\u003c")}</script>` : "";
   return `<!doctype html>
 <html lang="de">
 <head>
@@ -57,7 +76,13 @@ function layout({ title, description, page = "/", body, extraClass = "" }) {
   <link rel="icon" type="image/svg+xml" href="${prefix}/assets/brand/favicon.svg">
   <link rel="stylesheet" href="${prefix}/styles.css">
   <script defer src="${prefix}/app.js"></script>
-  <link rel="canonical" href="${canonical}">
+  ${canonical ? `<link rel="canonical" href="${canonical}">` : ""}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="${htmlEscape(title)}">
+  <meta property="og:description" content="${htmlEscape(description)}">
+  ${canonical ? `<meta property="og:url" content="${canonical}">` : ""}
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  ${schemaScript}
 </head>
 <body class="${extraClass}">
   <header class="site-header">
@@ -96,7 +121,7 @@ function layout({ title, description, page = "/", body, extraClass = "" }) {
     <a href="${prefix}/werkzeuge/">Werkzeuge</a>
   </div>
 </body>
-</html>`;
+</html>`.replace(/[ \t]+$/gm, "");
 }
 
 function whatsAppUrl(message) {
@@ -244,8 +269,8 @@ function homePage() {
   </section>
   ${contactSection("Hallo, ich möchte ein Werkzeug mieten.")}`;
   return layout({
-    title: `${business.name} | Werkzeugverleih in Langenfeld`,
-    description: "Werkzeug, Gerüste und Gartengerate in Langenfeld mieten. Telefon und WhatsApp im Fokus.",
+    title: "Werkzeugverleih Langenfeld | Gerüste & Geräte mieten – MV-Vermietung",
+    description: "Rollgerüst, Rüttelplatte, Gartengeräte und mehr in Langenfeld mieten. Klare Preise, flexible Abholung nach Absprache und direkte Anfrage per Telefon oder WhatsApp.",
     page: "/",
     body
   });
@@ -281,8 +306,8 @@ function overviewPage() {
   <p class="empty-state" id="empty-tools" hidden>Kein Werkzeug passt zu deiner Auswahl. Ruf gern an, oft findet sich trotzdem eine Lösung.</p>
   ${contactSection("Hallo, ich habe eine Frage zu einem Werkzeug.")}`;
   return layout({
-    title: `Werkzeuge mieten | ${business.name}`,
-    description: "Alle Werkzeuge von M.V. - Vermietung mit Filter, Suche und Sortierung.",
+    title: `Werkzeuge & Geräte mieten in Langenfeld | ${business.name}`,
+    description: "Werkzeugverleih in Langenfeld: Rollgerüst, Rüttelplatte, Leitern, Gartengeräte und mehr. Mietpreise ansehen und direkt anfragen.",
     page: "/werkzeuge/",
     body,
     extraClass: "catalog-page"
@@ -385,8 +410,8 @@ function toolPage(tool) {
   </section>
   ${contactSection(`Hallo, ich interessiere mich für ${tool.title}.`, tool)}`;
   return layout({
-    title: `${tool.title} mieten | ${business.name}`,
-    description: `${tool.title} in Langenfeld mieten. Preisrechner, Kaution und schnelle Anfrage per Telefon oder WhatsApp.`,
+    title: `${tool.title} mieten in Langenfeld | ${business.name}`,
+    description: `${tool.summary} In Langenfeld mieten: Preise und Kaution ansehen und direkt per Telefon oder WhatsApp anfragen.`,
     page: `/werkzeuge/${tool.slug}/`,
     body,
     extraClass: "detail-page"
@@ -447,7 +472,10 @@ async function copyPublic(srcDir, destDir) {
   }
 }
 
-await rm(dist, { recursive: true, force: true });
+await mkdir(dist, { recursive: true });
+for (const entry of await readdir(dist)) {
+  await rm(path.join(dist, entry), { recursive: true, force: true });
+}
 await mkdir(toolsDir, { recursive: true });
 await copyPublic(publicDir, dist);
 await writeFile(path.join(dist, "index.html"), homePage());
@@ -462,6 +490,13 @@ for (const page of ["impressum", "datenschutz"]) {
   const pageDir = path.join(dist, page);
   await mkdir(pageDir, { recursive: true });
   await writeFile(path.join(pageDir, "index.html"), legalPage(page));
+}
+
+if (/^https?:\/\//i.test(siteBase)) {
+  const pages = ["/", "/werkzeuge/", ...tools.map((tool) => `/werkzeuge/${tool.slug}/`), "/impressum/", "/datenschutz/"];
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pages.map((page) => `  <url><loc>${htmlEscape(canonicalUrl(page))}</loc></url>`).join("\n")}\n</urlset>\n`;
+  await writeFile(path.join(dist, "sitemap.xml"), sitemap);
+  await writeFile(path.join(dist, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${siteBase}/sitemap.xml\n`);
 }
 
 console.log(`Built ${tools.length + 4} pages into ${path.relative(root, dist)}`);
