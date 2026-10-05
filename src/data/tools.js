@@ -401,7 +401,12 @@ export const tools = [
     includedTitle: "Schlagnüsse",
     included: ["Ein Schlagnuss-Set nach Wahl ist im Mietpreis enthalten.", "Beide Sets können zusammen gegen eine Pauschale von 5,00 € mitgemietet werden."],
     notes: ["Das Gerät wird sauber übergeben und sollte auch sauber zurückgegeben werden. Bei starker Verschmutzung kann eine Reinigungsgebühr anfallen.", "Bei Abholung bring bitte einen gültigen Personalausweis sowie die Kaution und die Kosten für die Mietdauer mit.", "Die Kaution beträgt 150,00 €.", "Ein Miettag entspricht 24 Stunden. Es erfolgt keine minutengenaue Abrechnung.", "Vor Ort gibt es eine Einweisung mit den wichtigsten Punkten zur Bedienung und Handhabung. Auch während der Mietzeit bin ich bei Fragen oder Problemen erreichbar.", "Bei sicherheitsrelevanten Schraubverbindungen, zum Beispiel an Fahrzeugen, sollte der abschließende Anzug immer mit einem passenden Drehmomentschlüssel erfolgen.", "Abholung und Anlieferung sind ausschließlich nach Absprache möglich."],
-    images: [{ src: "/assets/brand/logo-mv-vermietung.png", alt: "MV-Vermietung Logo" }],
+    images: [
+      { src: "/assets/tools/akku-schlagschrauber/schlagschrauber-01.jpg", alt: "Akku-Schlagschrauber mit Schlagnuss-Sets – Bild 1" },
+      { src: "/assets/tools/akku-schlagschrauber/schlagschrauber-02.jpg", alt: "Akku-Schlagschrauber und Zubehör – Bild 2" },
+      { src: "/assets/tools/akku-schlagschrauber/schlagschrauber-03.jpg", alt: "Akku-Schlagschrauber im Koffer – Bild 3" },
+      { src: "/assets/tools/akku-schlagschrauber/schlagschrauber-04.jpg", alt: "Akku-Schlagschrauber – Bild 4" }
+    ],
     options: [{ id: "standard", label: "Akku-Schlagschrauber", dayPrice: 15, minimumDays: 1, tiers: [] }],
     addons: [{ id: "set", label: "Ein Schlagnuss-Set nach Wahl inklusive", surcharge: 0 }, { id: "both", label: "Beide Schlagnuss-Sets", surcharge: 5 }]
   },
@@ -416,7 +421,10 @@ export const tools = [
     summary: "Zum Verdichten kleiner Flächen, Kanten und schmaler Stellen.",
     description: "Handstampfer für Verdichtungsarbeiten an kleinen Flächen, Kanten und schmalen Stellen.",
     specs: ["Gewicht: ca. 15 kg"],
-    images: [{ src: "/assets/brand/logo-mv-vermietung.png", alt: "MV-Vermietung Logo" }],
+    images: [
+      { src: "/assets/tools/handstampfer/handstampfer-01.jpg", alt: "Handstampfer 15 kg – Bild 1" },
+      { src: "/assets/tools/handstampfer/handstampfer-02.jpg", alt: "Handstampfer 15 kg – Bild 2" }
+    ],
     options: [{ id: "standard", label: "Handstampfer 15 kg", dayPrice: 5, minimumDays: 1, tiers: [] }]
   }
 ];
