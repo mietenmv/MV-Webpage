@@ -524,7 +524,7 @@ function initContactForms() {
     const isTreppenleiterContact = contactMode === "treppenleiter" || toolInput?.dataset.defaultTool === "Treppenleiter";
     const isHochentasterContact = contactMode === "hochentaster" || toolInput?.dataset.defaultTool === "Hochentaster";
     const isHeckenschereContact = contactMode === "heckenschere" || toolInput?.dataset.defaultTool === "Heckenschere";
-    const isSpuelContact = contactMode === "spuelstation" || toolInput?.dataset.defaultTool === "Spülstation für Solarthermie";
+    const isSpuelContact = contactMode === "spuelstation" || toolInput?.dataset.defaultTool === "Spül- und Befüllstation";
     const isStromzangeContact = contactMode === "stromzange";
     const isAnwaermbrennerContact = contactMode === "anwaermbrenner";
     const isHandstampferContact = contactMode === "handstampfer";

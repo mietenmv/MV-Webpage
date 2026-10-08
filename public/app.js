@@ -171,6 +171,7 @@ function initCalculators() {
     const optionInput = calculator.querySelector("[data-option]");
     const daysInput = calculator.querySelector("[data-days]");
     const addonInput = calculator.querySelector("[data-treppenleiter-additional]");
+    const gardenAddonInput = calculator.querySelector("[data-garden-multifunction-addon]");
     const result = calculator.querySelector("[data-result]");
     const whatsApp = calculator.querySelector("[data-price-whatsapp]");
     const updateWhatsApp = (message) => {
@@ -180,6 +181,15 @@ function initCalculators() {
     function render() {
       const option = tool.options.find((candidate) => candidate.id === optionInput.value) || tool.options[0];
       const days = Math.max(1, Number.parseInt(daysInput.value, 10) || 1);
+      if (tool.pricingMode === "garden-multifunction") {
+        const addon = tool.addons.find((candidate) => candidate.id === gardenAddonInput?.value) || tool.addons[0];
+        const combinedDayPrice = Number(option.dayPrice || 0) + Number(addon.dayPrice || 0);
+        const calculation = calculateTreppenleiterOption({ dayPrice: combinedDayPrice }, days, { label: addon.label, surcharge: 0 });
+        const deposit = Number.isFinite(tool.deposit) ? tool.deposit : 0;
+        result.innerHTML = `<div><span>Mietpreis</span><strong>${euro.format(calculation.rent)}</strong></div><div class="subtle-line"><span>Effektiv pro Tag</span><strong>${euro.format(calculation.effectiveDayPrice)}</strong></div><div><span>Kaution</span><strong>${euro.format(deposit)}</strong></div><div class="subtle-line"><span>Mindestmietdauer</span><strong>1 Tag</strong></div><div class="subtle-line"><span>Mietstufe</span><strong>${calculation.stage}</strong></div><div><span>Option</span><strong>${addon.label}</strong></div><div class="total"><span>Bei Abholung fällig</span><strong>${euro.format(calculation.rent + deposit)}</strong></div>`;
+        updateWhatsApp(`Hallo MV-Vermietung, ich interessiere mich für ${tool.title} (${addon.label}) für ${calculation.days} Tage. Angezeigter Mietpreis: ${euro.format(calculation.rent)}.`);
+        return;
+      }
       if (tool.pricingMode === "schlagschrauber") {
         const addon = tool.addons.find((candidate) => candidate.id === addonInput.value) || tool.addons[0];
         const calculation = calculateSchlagschrauberOption(option, days, addon);
@@ -218,6 +228,7 @@ function initCalculators() {
     optionInput.addEventListener("change", render);
     daysInput.addEventListener("input", render);
     addonInput?.addEventListener("change", render);
+    gardenAddonInput?.addEventListener("change", render);
     render();
   });
 }
@@ -282,13 +293,14 @@ function initAutoMessageContactForm(form) {
   };
   const updateDraft = () => {
     if (messageInput.dataset.userEdited === "true") return;
+    const isGardenMultifunction = ["sense-freischneider", "kultivator-bodenhacke", "rasenkantenschneider"].includes(form.dataset.contactMode);
     const hasDateRange = Boolean(startInput.value && endInput.value);
     const dates = hasDateRange
       ? `vom ${formatDate(startInput.value)} bis zum ${formatDate(endInput.value)} (${Math.round((new Date(`${endInput.value}T00:00:00`) - new Date(`${startInput.value}T00:00:00`)) / 86400000) + 1} Tage)`
       : "vom [TT.MM.JJ] bis zum [TT.MM.JJ] ([Anzahl Tage] Tage)";
     const parts = [
       "Hallo MV-Vermietung,",
-      `ich interessiere mich für die Miete von ${toolInput.value || toolInput.dataset.defaultTool || "Werkzeug"}${form.dataset.contactMode === "akku-schlagschrauber" && rentalOptionInput ? ` (${rentalOptionInput.selectedOptions[0]?.textContent || "Ein Schlagnuss-Set nach Wahl inklusive"})` : ""}.`
+      `ich interessiere mich für die Miete von ${toolInput.value || toolInput.dataset.defaultTool || "Werkzeug"}${form.dataset.contactMode === "akku-schlagschrauber" && rentalOptionInput ? ` (${rentalOptionInput.selectedOptions[0]?.textContent || "Ein Schlagnuss-Set nach Wahl inklusive"})` : isGardenMultifunction && rentalOptionInput && toolInput.value === defaultTool ? ` (${rentalOptionInput.selectedOptions[0]?.textContent || "Ohne weiteren Arbeitsaufsatz"})` : ""}.`
     ];
     if (deliveryInput.value === "delivery") {
       parts.push("Wenn du HIER deine Adresse einträgst, erhältst du direkt ein konkretes Angebot inkl. Lieferung.");
@@ -335,7 +347,7 @@ function initAutoMessageContactForm(form) {
 
 function initContactForms() {
   document.querySelectorAll("[data-contact-form]").forEach((form) => {
-    if (["stromzange", "anwaermbrenner", "handstampfer", "akku-schlagschrauber", "zimmergeruest"].includes(form.dataset.contactMode)) {
+    if (["stromzange", "anwaermbrenner", "handstampfer", "akku-schlagschrauber", "zimmergeruest", "sense-freischneider", "kultivator-bodenhacke", "rasenkantenschneider"].includes(form.dataset.contactMode)) {
       initAutoMessageContactForm(form);
       return;
     }

@@ -11,7 +11,11 @@ const specialDescriptions = {
   "werkzeuge/akku-schlagschrauber/index.html": "Akku-Schlagschrauber in Langenfeld mieten. Preise und Kaution ansehen und direkt bei MV-Vermietung anfragen.",
   "werkzeuge/anwaermbrenner/index.html": "Anwärmbrenner und Gasbrenner in Langenfeld mieten. Preise ansehen und direkt per Telefon oder WhatsApp anfragen.",
   "werkzeuge/handstampfer/index.html": "Handstampfer in Langenfeld mieten. Preise und Kaution ansehen und direkt bei MV-Vermietung anfragen.",
-  "werkzeuge/stromzange/index.html": "Stromzange in Langenfeld mieten. Preise und Kaution ansehen und direkt bei MV-Vermietung anfragen."
+  "werkzeuge/stromzange/index.html": "Stromzange in Langenfeld mieten. Preise und Kaution ansehen und direkt bei MV-Vermietung anfragen.",
+  "werkzeuge/spuelstation-solarthermie/index.html": "Spül- und Befüllstation für Fußbodenheizungen, Wandheizungen und Solaranlagen. Geeignet zum Spülen, Befüllen und Entlüften geschlossener Heizkreise."
+};
+const specialTitles = {
+  "werkzeuge/spuelstation-solarthermie/index.html": "Spül- und Befüllstation"
 };
 
 async function findHtml(directory) {
@@ -37,7 +41,8 @@ for (const file of await findHtml(dist)) {
   const titleMatch = html.match(/<title>(.*?)<\/title>/s);
   if (!titleMatch) throw new Error(`Missing title: ${relative}`);
   let title = titleMatch[1];
-  if (relative === "index.html") title = "Werkzeugverleih in Langenfeld | MV-Vermietung";
+  if (specialTitles[relative]) title = specialTitles[relative];
+  else if (relative === "index.html") title = "Werkzeugverleih in Langenfeld | MV-Vermietung";
   else if (relative === "werkzeuge/index.html") title = "Werkzeug & Geräte mieten in Langenfeld | MV-Vermietung";
   else if (relative.startsWith("werkzeuge/") && !relative.endsWith("werkzeuge/index.html")) {
     title = `${title.replace(/\s*\|\s*MV-Vermietung$/, "").replace(/\s+in Langenfeld$/, "")} in Langenfeld | MV-Vermietung`;
@@ -60,12 +65,20 @@ for (const file of await findHtml(dist)) {
     logo: `${siteBase}/assets/brand/logo-mv-vermietung.png`,
     address: {
       "@type": "PostalAddress",
+      streetAddress: "Stettiner Str. 18",
       addressLocality: "Langenfeld",
+      addressRegion: "Nordrhein-Westfalen",
       postalCode: "40764",
       addressCountry: "DE"
     },
+    email: "mv.vermietung18@gmail.com",
     areaServed: { "@type": "City", name: "Langenfeld" }
   };
+  // Clear previous generated tags first so re-running this script stays idempotent.
+  html = html
+    .replace(/^\s*<meta name="robots"[^>]*>\s*$/gm, "")
+    .replace(/^\s*<meta property="og:[^"]+"[^>]*>\s*$/gm, "")
+    .replace(/^\s*<script type="application\/ld\+json">[\s\S]*?<\/script>\s*$/gm, "");
   const metadata = [
     `<link rel="canonical" href="${canonical}">`,
     '<meta name="robots" content="index,follow,max-image-preview:large">',

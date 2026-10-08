@@ -1,6 +1,6 @@
 import { mkdir, copyFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { business, categories, tools } from "../src/data/tools.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -65,11 +65,12 @@ function layout({ title, description, page = "/", body, extraClass = "" }) {
       <img src="${prefix}${business.logo}" alt="${business.name} Logo">
       <span>
         <strong>${business.name}</strong>
-        <small>${business.location}</small>
+        <small>Langenfeld</small>
       </span>
     </a>
     <nav aria-label="Hauptnavigation">
       <a href="${prefix}/werkzeuge/">Werkzeuge</a>
+      <a href="${prefix}/#gut-zu-wissen">Gut zu wissen</a>
       <a href="${prefix}/#kontakt">Kontakt</a>
       <a href="${business.mapsUrl}">Route</a>
     </nav>
@@ -105,25 +106,30 @@ function whatsAppUrl(message) {
 
 function toolCard(tool, featured = false) {
   const price = lowestPrice(tool);
+  const detailUrl = featured ? `./werkzeuge/${tool.slug}/index.html` : `./${tool.slug}/index.html`;
+  const assetPrefix = featured ? "./assets/" : "../assets/";
+  const previewUrl = publicUrl(imageVariant(tool.images[0].src, 640)).replace("/assets/", assetPrefix);
+  const previewSet = imageSet(tool.images[0].src).replaceAll("/assets/", assetPrefix);
   return `<article class="tool-card${featured ? " featured-card" : ""}" data-category="${htmlEscape(tool.category)}" data-title="${htmlEscape(tool.title.toLowerCase())}" data-price="${price ?? 999999}" data-popularity="${tool.popularity}">
-    <a href="${slugUrl(tool.slug)}" class="tool-card-media">
-      <img src="${publicUrl(imageVariant(tool.images[0].src, 640))}" srcset="${imageSet(tool.images[0].src)}" sizes="(max-width: 760px) 92vw, 320px" alt="${htmlEscape(tool.images[0].alt)}" loading="lazy" decoding="async">
+    <a href="${detailUrl}" class="tool-card-media">
+      <img src="${previewUrl}" srcset="${previewSet}" sizes="(max-width: 760px) 92vw, 320px" alt="${htmlEscape(tool.images[0].alt)}" loading="lazy" decoding="async">
     </a>
     <div class="tool-card-body">
       <span class="pill">${htmlEscape(tool.category)}</span>
-      <h3><a href="${slugUrl(tool.slug)}">${htmlEscape(tool.title)}</a></h3>
+      <h3><a href="${detailUrl}">${htmlEscape(tool.title)}</a></h3>
       <p>${htmlEscape(tool.summary)}</p>
       <div class="card-meta">
         <strong>${price ? `ab ${euro(price)} / Tag` : "Preis auf Anfrage"}</strong>
         ${Number.isFinite(tool.deposit) ? `<span>Kaution ${euro(tool.deposit)}</span>` : "<span>Kaution auf Anfrage</span>"}
       </div>
-      <a class="text-link" href="${slugUrl(tool.slug)}">Details ansehen</a>
+      <a class="text-link" href="${detailUrl}">Details ansehen</a>
     </div>
   </article>`;
 }
 
 function contactSection(context = "", tool = null) {
-  const isDynamicDetailContact = ["stromzange", "anwaermbrenner", "handstampfer", "akku-schlagschrauber", "zimmergeruest"].includes(tool?.slug);
+  const isGardenMultiTool = ["sense-freischneider", "kultivator-bodenhacke", "rasenkantenschneider"].includes(tool?.slug);
+  const isDynamicDetailContact = ["stromzange", "anwaermbrenner", "handstampfer", "akku-schlagschrauber", "zimmergeruest", "sense-freischneider", "kultivator-bodenhacke", "rasenkantenschneider"].includes(tool?.slug);
   const contactCopy = isDynamicDetailContact
     ? "Schreib kurz, welches Werkzeug du brauchst und für welchen Zeitraum. Nutze dafür gerne die vorgefertigte Nachricht im Kontaktformular, mit wenigen Klicks sind alle benötigten Infos enthalten. Bei Abholung bitte Kaution, Mietpreis und Personalausweis einplanen."
     : "Schreib kurz, welches Werkzeug du brauchst und für wie viele Tage. Bei Abholung bitte Kaution und Mietpreis einplanen.";
@@ -134,7 +140,10 @@ function contactSection(context = "", tool = null) {
     "Treppenleiter",
     "Hochentaster Makita DUX60",
     "Heckenschere Makita DUX60",
-    "Spülstation für Solarthermie",
+    "Sense / Freischneider",
+    "Kultivator / Bodenhacke",
+    "Rasenkantenschneider",
+    "Spül- und Befüllstation",
     "Zimmergerüst",
     "Akku-Schlagschrauber",
     "Stromzange",
@@ -151,6 +160,9 @@ function contactSection(context = "", tool = null) {
       </label>
       ${tool?.slug === "akku-schlagschrauber" ? `<label data-schlagschrauber-option-field>Schlagnüsse
         <select name="rental-option"><option value="set">Ein Schlagnuss-Set nach Wahl inklusive</option><option value="both">Beide Schlagnuss-Sets (+5,00 € pauschal)</option></select>
+      </label>` : ""}
+      ${isGardenMultiTool ? `<label data-garden-multifunction-option-field>Weiterer Arbeitsaufsatz
+        <select name="rental-option"><option value="none">Ohne weiteren Arbeitsaufsatz</option><option value="additional">Weiterer Arbeitsaufsatz (+10 € pro Tag)</option></select>
       </label>` : ""}
       <label>Lieferung
         <select name="delivery" data-delivery-option>
@@ -209,7 +221,12 @@ Mein gewünschter Mietzeitraum wäre vom [TT.MM.JJ] bis zum [TT.MM.JJ] ([Anzahl 
 }
 
 function homePage() {
-  const topTools = tools.filter((tool) => tool.top).slice(0, 3);
+  const topToolOrder = ["rollgeruest", "sense-freischneider", "kultivator-bodenhacke", "rasenkantenschneider"];
+  const topTools = tools.filter((tool) => tool.top).sort((a, b) => {
+    const aOrder = topToolOrder.indexOf(a.slug);
+    const bOrder = topToolOrder.indexOf(b.slug);
+    return (aOrder < 0 ? topToolOrder.length : aOrder) - (bOrder < 0 ? topToolOrder.length : bOrder);
+  });
   const body = `<section class="hero">
     <div class="hero-copy">
       <span class="eyebrow">Werkzeugverleih in Langenfeld</span>
@@ -293,6 +310,7 @@ function calculator(tool) {
   const hasKnownPrice = tool.options.some((option) => Number.isFinite(option.dayPrice));
   const noSelectableExtras = ["stromzange", "anwaermbrenner", "zimmergeruest"].includes(tool.slug);
   const isSchlagschrauber = tool.slug === "akku-schlagschrauber";
+  const isGardenMultiTool = tool.pricingMode === "garden-multifunction";
   if (!hasKnownPrice) {
     return `<section class="calculator inquiry-only">
       <span class="eyebrow">Preisberechnung</span>
@@ -308,7 +326,10 @@ function calculator(tool) {
     <span class="eyebrow">Preisrechner</span>
     <h2>${tool.slug === "anwaermbrenner" ? "Preisrechner Anwärmbrenner" : tool.slug === "stromzange" ? "Preisrechner Stromzange" : tool.slug === "zimmergeruest" ? "Preisrechner Zimmergerüst" : "Mietdauer auswählen"}</h2>
     <div class="calculator-grid">
-      ${isSchlagschrauber
+      ${isGardenMultiTool
+        ? `<input type="hidden" value="${htmlEscape(tool.options[0].id)}" data-option>
+          <label>Weiterer Arbeitsaufsatz<select data-garden-multifunction-addon><option value="none">Ohne weiteren Arbeitsaufsatz</option><option value="additional">Weiterer Arbeitsaufsatz (+10 € pro Tag)</option></select></label>`
+        : isSchlagschrauber
         ? `<label>Schlagnüsse<select data-treppenleiter-additional>${tool.addons.map((addon) => `<option value="${htmlEscape(addon.id)}">${htmlEscape(addon.id === "both" ? "Beide Schlagnuss-Sets (+5,00 € pauschal)" : "Ein Schlagnuss-Set nach Wahl inklusive")}</option>`).join("")}</select></label>`
         : noSelectableExtras
         ? `<input type="hidden" value="${htmlEscape(tool.options[0].id)}" data-option>`
@@ -358,7 +379,7 @@ function toolPage(tool) {
     <div>
       <a class="back-link" href="${siteBase}/werkzeuge/">Alle Werkzeuge</a>
       <span class="pill">${htmlEscape(tool.category)}</span>
-      <h1>${tool.slug === "anwaermbrenner" ? "Anwärmbrenner<br>/ Gasbrenner" : htmlEscape(tool.title)}</h1>
+      <h1>${tool.slug === "anwaermbrenner" ? "Anwärmbrenner<br>/ Gasbrenner" : htmlEscape(tool.heading || tool.title)}</h1>
       <p class="lead">${htmlEscape(tool.summary)}</p>
       <div class="detail-meta">
         <strong>${price ? `ab ${euro(price)} / Tag` : "Preis auf Anfrage"}</strong>
@@ -385,8 +406,8 @@ function toolPage(tool) {
   </section>
   ${contactSection(`Hallo, ich interessiere mich für ${tool.title}.`, tool)}`;
   return layout({
-    title: `${tool.title} mieten | ${business.name}`,
-    description: `${tool.title} in Langenfeld mieten. Preisrechner, Kaution und schnelle Anfrage per Telefon oder WhatsApp.`,
+    title: tool.seoTitle || `${tool.title} mieten | ${business.name}`,
+    description: tool.seoDescription || `${tool.title} in Langenfeld mieten. Preisrechner, Kaution und schnelle Anfrage per Telefon oder WhatsApp.`,
     page: `/werkzeuge/${tool.slug}/`,
     body,
     extraClass: "detail-page"
@@ -447,21 +468,24 @@ async function copyPublic(srcDir, destDir) {
   }
 }
 
-await rm(dist, { recursive: true, force: true });
-await mkdir(toolsDir, { recursive: true });
-await copyPublic(publicDir, dist);
-await writeFile(path.join(dist, "index.html"), homePage());
-await mkdir(path.join(dist, "werkzeuge"), { recursive: true });
-await writeFile(path.join(dist, "werkzeuge", "index.html"), overviewPage());
-for (const tool of tools) {
-  const pageDir = path.join(toolsDir, tool.slug);
-  await mkdir(pageDir, { recursive: true });
-  await writeFile(path.join(pageDir, "index.html"), toolPage(tool));
-}
-for (const page of ["impressum", "datenschutz"]) {
-  const pageDir = path.join(dist, page);
-  await mkdir(pageDir, { recursive: true });
-  await writeFile(path.join(pageDir, "index.html"), legalPage(page));
-}
+export { toolPage, toolCard, homePage, overviewPage };
 
-console.log(`Built ${tools.length + 4} pages into ${path.relative(root, dist)}`);
+if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
+  await rm(dist, { recursive: true, force: true });
+  await mkdir(toolsDir, { recursive: true });
+  await copyPublic(publicDir, dist);
+  await writeFile(path.join(dist, "index.html"), homePage());
+  await mkdir(path.join(dist, "werkzeuge"), { recursive: true });
+  await writeFile(path.join(dist, "werkzeuge", "index.html"), overviewPage());
+  for (const tool of tools) {
+    const pageDir = path.join(toolsDir, tool.slug);
+    await mkdir(pageDir, { recursive: true });
+    await writeFile(path.join(pageDir, "index.html"), toolPage(tool));
+  }
+  for (const page of ["impressum", "datenschutz"]) {
+    const pageDir = path.join(dist, page);
+    await mkdir(path.join(dist, page), { recursive: true });
+    await writeFile(path.join(pageDir, "index.html"), legalPage(page));
+  }
+  console.log(`Built ${tools.length + 4} pages into ${path.relative(root, dist)}`);
+}

@@ -1,6 +1,6 @@
 export const business = {
-  name: "M.V. - Vermietung",
-  legalName: "M.V. - Vermietung",
+  name: "MV-Vermietung",
+  legalName: "MV-Vermietung",
   tagline: "Gerüst & Geräte für dein Hausprojekt",
   phone: "0163-3623280",
   phoneHref: "+491633623280",
@@ -41,7 +41,7 @@ export const tools = [
       "Längstes Transportteil ca. 3,12 m",
       "Mindestmietdauer Gerüst: 2 Tage"
     ],
-    images: [{ src: "/assets/brand/logo-mv-vermietung.png", alt: "M.V. - Vermietung Logo" }],
+    images: ["Rollgeruest-gesamt-7,5m-seilzug-01", "Rollgeruest-hoehen-6,5m-02", "Rollgeruest-6,5m-03", "Rollgeruest-Treppe-04", "Rollgeruest-4,5m-05", "Rollgeruest-7,5m-06", "Rollgeruest-5,5m-07", "Rollgeruest-Rollen-08", "Rollgeruest-5,5m-09", "Rollgeruest-Teile-10", "Rollgeruest-Seilzug-11", "Rollgeruest-6,5m-12"].map((name, i) => ({ src: `/assets/tools/rollgeruest/${name}.png`, alt: `Rollgerüst – Bild ${i + 1}` })),
     options: [
       {
         id: "55m",
@@ -114,7 +114,7 @@ export const tools = [
     description:
       "Vorwärts laufende Rüttelplatte mit 28 cm Arbeitsbreite, 12 kN Verdichtungskraft und ca. 77 kg Gewicht. Gut geeignet für kleinere Flächen und private Bauprojekte.",
     specs: ["Arbeitsbreite: 28 cm", "Verdichtung: 12 kN", "Gewicht: ca. 77 kg"],
-    images: [{ src: "/assets/brand/logo-mv-vermietung.png", alt: "M.V. - Vermietung Logo" }],
+    images: ["Ruettelplatte-01", "Ruettelplatte-02", "Ruettelplatte-03", "Ruettelplatte-04", "Ruettelplatte-05", "Ruettelplatte-06"].map((name, i) => ({ src: `/assets/tools/ruettelplatte/${name}.png`, alt: `Rüttelplatte 77 kg – Bild ${i + 1}` })),
     options: [
       {
         id: "standard",
@@ -139,7 +139,7 @@ export const tools = [
     description:
       "Leistungsstarker Bosch GSH 11E für Arbeiten rund ums Haus und den Umbau. Inklusive passender Meißel, ideal für Abbruch- und Stemmarbeiten.",
     specs: ["Bosch GSH 11E", "Inklusive Meißel", "Transport im Koffer"],
-    images: [{ src: "/assets/brand/logo-mv-vermietung.png", alt: "M.V. - Vermietung Logo" }],
+    images: ["Abbruchhamer-01", "Abbruchhamer-02", "Abbruchhamer-03", "Abbruchhamer-04", "Abbruchhamer-05"].map((name, i) => ({ src: `/assets/tools/abbruchhammer/${name}.png`, alt: `Abbruchhammer – Bild ${i + 1}` })),
     options: [
       {
         id: "standard",
@@ -214,7 +214,7 @@ export const tools = [
     description:
       "Akku-Multitool von Makita für Arbeiten an höheren Ästen und schwer erreichbaren Stellen im Garten. Ideal, wenn sich ein Kauf für einzelne Einsätze nicht lohnt.",
     specs: ["Makita DUX60 36 V", "Teleskop-/Hochentaster-Aufsatz", "Für Garten- und Baumschnitt"],
-    images: [{ src: "/assets/brand/logo-mv-vermietung.png", alt: "M.V. - Vermietung Logo" }],
+    images: ["hochentaster-01.png", "hochentaster-02.jpg", "hochentaster-03.png", "hochentaster-04.png", "hochentaster-05.jpg", "hochentaster-06.png", "hochentaster-07.png", "hochentaster-08.png", "akkus-DUX60.jpg", "DUX60-alles.jpg", "DUX60-alles-2.jpg"].map((file, i) => ({ src: `/assets/tools/hochentaster/${file}`, alt: `Hochentaster – Bild ${i + 1}` })),
     options: [
       {
         id: "hochentaster",
@@ -239,7 +239,7 @@ export const tools = [
     description:
       "Teleskop-Heckenschere für horizontale und vertikale Schnitte an höheren Hecken. Die Akku-Lösung eignet sich besonders für flexible Gartenarbeiten.",
     specs: ["Makita DUX60 36 V", "Teleskop-Heckenscheren-Aufsatz", "Für hohe Hecken"],
-    images: [{ src: "/assets/brand/logo-mv-vermietung.png", alt: "M.V. - Vermietung Logo" }],
+    images: ["heckenschere-01.png", "heckenschere-02.png", "heckenschere-03.png", "heckenschere-04.png", "heckenschere-05.png", "heckenschere-06.png", "akkus-DUX60.jpg", "DUX60-alles.jpg", "DUX60-alles-2.jpg"].map((file, i) => ({ src: `/assets/tools/heckenschere/${file}`, alt: `Heckenschere – Bild ${i + 1}` })),
     options: [
       {
         id: "heckenschere",
@@ -251,8 +251,58 @@ export const tools = [
     ]
   },
   {
+    slug: "sense-freischneider",
+    title: "Sense / Freischneider",
+    category: "Garten",
+    top: false,
+    popularity: 66,
+    deposit: 150,
+    pricingMode: "garden-multifunction",
+    summary: "Makita Akku-Freischneider für den Rückschnitt von Gras und leichtem Bewuchs rund um Haus und Garten.",
+    description: "Angeboten wird ein Makita Akku-Multifunktionsgerät mit Freischneider-Aufsatz und Mähfaden. Die Schnittbreite mit Mähfaden beträgt ca. 42 cm.\n\nBei Bedarf können zwei Unkrautbürsten-Aufsätze mitgegeben werden: eine Drahtbürste und eine Nylonbürste.",
+    specs: ["Schnittbreite mit Mähfaden: ca. 42 cm", "2 × 5-Ah-Akkus inklusive", "Doppelladegerät inklusive", "Transporttasche: ca. 120 × 25 × 30 cm", "Weiterer Arbeitsaufsatz: 10 € pro Tag"],
+    notes: ["Das Gerät inklusive Zubehör wird sauber übergeben und sollte auch sauber zurückkommen. Für verschmutzte Maschinen und Geräte wird je nach Aufwand eine Reinigungspauschale berechnet."],
+    images: ["sense-01.jpg", "sense-02.jpg", "sense-03.jpg", "akkus-DUX60.jpg", "DUX60-alles.jpg", "DUX60-alles-2.jpg"].map((file, i) => ({ src: `/assets/tools/sense/${file}`, alt: `Sense / Freischneider – Bild ${i + 1}` })),
+    options: [{ id: "standard", label: "Sense / Freischneider", dayPrice: 20, minimumDays: 1, tiers: [] }],
+    addons: [{ id: "none", label: "Ohne weiteren Arbeitsaufsatz", dayPrice: 0 }, { id: "additional", label: "Mit weiterem Arbeitsaufsatz", dayPrice: 10 }]
+  },
+  {
+    slug: "kultivator-bodenhacke",
+    title: "Kultivator / Bodenhacke",
+    category: "Garten",
+    top: false,
+    popularity: 65,
+    deposit: 150,
+    pricingMode: "garden-multifunction",
+    summary: "Makita Akku-Kultivator zum Auflockern und Vorbereiten von Beeten und kleineren Gartenflächen.",
+    description: "Angeboten wird ein Makita Akku-Multifunktionsgerät mit Kultivator-Aufsatz. Damit lässt sich der Boden in Beeten und kleineren Gartenflächen auflockern und für die Bepflanzung vorbereiten.\n\nDie Arbeitsbreite beträgt ca. 22 cm. Der Aufsatz eignet sich besonders für kleinere Flächen und Arbeiten zwischen bestehenden Pflanzreihen.",
+    specs: ["Kultivierungsbreite: ca. 22 cm", "Arbeitstiefe: ca. 22 cm", "2 × 5-Ah-Akkus inklusive", "Doppelladegerät inklusive", "Transporttasche: ca. 120 × 25 × 30 cm", "Weiterer Arbeitsaufsatz: 10 € pro Tag"],
+    notes: ["Das Gerät inklusive Zubehör wird sauber übergeben und sollte auch sauber zurückkommen. Für verschmutzte Maschinen und Geräte wird je nach Aufwand eine Reinigungspauschale berechnet."],
+    images: ["kultivator-01.jpg", "kultivator-02.jpg", "kultivator-03.jpg", "kultivator-04.jpg", "akkus-DUX60.jpg", "DUX60-alles.jpg", "akkus-DUX60-2.jpg"].map((file, i) => ({ src: `/assets/tools/kultivator/${file}`, alt: `Kultivator / Bodenhacke – Bild ${i + 1}` })),
+    options: [{ id: "standard", label: "Kultivator / Bodenhacke", dayPrice: 20, minimumDays: 1, tiers: [] }],
+    addons: [{ id: "none", label: "Ohne weiteren Arbeitsaufsatz", dayPrice: 0 }, { id: "additional", label: "Mit weiterem Arbeitsaufsatz", dayPrice: 10 }]
+  },
+  {
+    slug: "rasenkantenschneider",
+    title: "Rasenkantenschneider",
+    category: "Garten",
+    top: false,
+    popularity: 63,
+    deposit: 150,
+    pricingMode: "garden-multifunction",
+    summary: "Makita Akku-Rasenkantenschneider für saubere Kanten entlang von Wegen, Beeten und Rasenflächen.",
+    description: "Angeboten wird ein Makita Akku-Multifunktionsgerät mit Rasenkantenschneider-Aufsatz. Das Metallmesser schneidet eine klare Rasenkante entlang von Wegen, Beeten und anderen Abgrenzungen.\n\nDie Einrad-Führungshilfe unterstützt beim Führen des Geräts entlang der Kante.",
+    specs: ["Metallmesser mit ca. 20 cm Durchmesser", "Einrad-Führungshilfe", "2 × 5-Ah-Akkus inklusive", "Doppelladegerät inklusive", "Transporttasche: ca. 120 × 25 × 30 cm", "Weiterer Arbeitsaufsatz: 10 € pro Tag"],
+    notes: ["Das Gerät inklusive Zubehör wird sauber übergeben und sollte auch sauber zurückkommen. Für verschmutzte Maschinen und Geräte wird je nach Aufwand eine Reinigungspauschale berechnet."],
+    images: ["rasenkante-01.jpg", "rasenkante-02.jpg", "rasenkante-03.jpg", "akkus-DUX60.jpg", "DUX60-alles.jpg", "akkus-DUX60-2.jpg"].map((file, i) => ({ src: `/assets/tools/rasenkante/${file}`, alt: `Rasenkantenschneider – Bild ${i + 1}` })),
+    options: [{ id: "standard", label: "Rasenkantenschneider", dayPrice: 20, minimumDays: 1, tiers: [] }],
+    addons: [{ id: "none", label: "Ohne weiteren Arbeitsaufsatz", dayPrice: 0 }, { id: "additional", label: "Mit weiterem Arbeitsaufsatz", dayPrice: 10 }]
+  },
+  {
     slug: "spuelstation-solarthermie",
-    title: "Spülstation für Solarthermie",
+    title: "Spül- und Befüllstation",
+    seoTitle: "Spül- und Befüllstation",
+    heading: "Spülstation für Heizung & Solar",
     category: "Heizung/Solar",
     top: false,
     popularity: 64,
@@ -260,15 +310,15 @@ export const tools = [
     sourceUrl:
       "https://www.kleinanzeigen.de/s-anzeige/mieten-befuellstation-spuelstation-solarthermie-fussbodenheizung/3473172205-239-1863",
     summary:
-      "Befüll- und Spülstation für Solarthermie, Fußbodenheizung und geschlossene Heizsysteme.",
+      "Die Station eignet sich zum Spülen, Befüllen und Entlüften geschlossener Heizkreise – zum Beispiel bei Fußbodenheizungen, Wandheizungen und Solaranlagen.",
     description:
-      "Spül- und Befüllstation für Solaranlagen, Solarthermie, Fußbodenheizung und Heizkreise. Geeignet zum Spülen, Entlüften und Befüllen.",
-    specs: ["Für Solarthermie und Fußbodenheizung", "Befüllen, Spülen, Entlüften", "Abholung in Langenfeld"],
-    images: [{ src: "/assets/brand/logo-mv-vermietung.png", alt: "M.V. - Vermietung Logo" }],
+      "Die Station besteht aus einem stabilen Wagen mit Pumpe, 30-Liter-Behälter, Schläuchen, Filter und Absperrhahn.",
+    specs: ["Für Fußbodenheizungen, Wandheizungen und Solaranlagen", "Spülen, Befüllen und Entlüften geschlossener Heizkreise", "Abholung in Langenfeld"],
+    images: ["spuelstation-01.jpg", "spuelstation-02.jpg", "spuelstation-03.jpg", "spuelstation-04.jpg", "spuelstation-05.jpg", "spuelstation-06.jpg"].map((file, i) => ({ src: `/assets/tools/spuelstation/${file}`, alt: `Spülstation – Bild ${i + 1}` })),
     options: [
       {
         id: "standard",
-        label: "Spülstation",
+        label: "Spül- und Befüllstation",
         dayPrice: 30,
         minimumDays: 1,
         tiers: []
