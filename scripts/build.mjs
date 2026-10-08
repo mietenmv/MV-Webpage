@@ -9,7 +9,9 @@ const dist = path.join(root, "dist");
 const siteBase = process.env.SITE_BASE || "";
 const publicUrl = (url) => `${siteBase}${url}`;
 const isToolPhoto = (url) => url.includes("/assets/tools/");
-const imageVariant = (url, width) => isToolPhoto(url) ? url.replace(/\.(?:png|jpe?g)$/i, `-${width}.webp`) : url;
+const imageVariant = (url, width) => isToolPhoto(url)
+  ? url.replace(/\.(?:png|jpe?g)(\?.*)?$/i, (_, query = "") => `-${width}.webp${query}`)
+  : url;
 const imageSet = (url) => (isToolPhoto(url) ? [640, 1600]
   .map((width) => `${publicUrl(imageVariant(url, width)).replaceAll(",", "%2C")} ${width}w`)
   .join(", ") : `${publicUrl(url)} 640w`);

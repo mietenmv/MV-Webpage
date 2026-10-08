@@ -314,7 +314,7 @@ export const tools = [
     description:
       "Die Station besteht aus einem stabilen Wagen mit Pumpe, 30-Liter-Behälter, Schläuchen, Filter und Absperrhahn.",
     specs: ["Für Fußbodenheizungen, Wandheizungen und Solaranlagen", "Spülen, Befüllen und Entlüften geschlossener Heizkreise", "Abholung in Langenfeld"],
-    images: ["spuelstation-01.jpg", "spuelstation-02.jpg", "spuelstation-03.jpg", "spuelstation-04.jpg", "spuelstation-05.jpg", "spuelstation-06.jpg"].map((file, i) => ({ src: `/assets/tools/spuelstation/${file}`, alt: `Spülstation – Bild ${i + 1}` })),
+    images: ["spuelstation-01.jpg", "spuelstation-02.jpg", "spuelstation-03.jpg", "spuelstation-04.jpg", "spuelstation-05.jpg", "spuelstation-06.jpg"].map((file, i) => ({ src: `/assets/tools/spuelstation/${file}?v=20261008-2`, alt: `Spülstation – Bild ${i + 1}` })),
     options: [
       {
         id: "standard",
