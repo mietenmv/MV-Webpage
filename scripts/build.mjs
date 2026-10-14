@@ -402,6 +402,7 @@ function toolPage(tool) {
       <ul>${tool.specs.map((spec) => `<li>${htmlEscape(spec)}</li>`).join("")}</ul>
       ${tool.included?.length ? `<h2>${htmlEscape(tool.includedTitle || "Inklusive")}</h2>${tool.included.map((item) => `<p>${htmlEscape(item)}</p>`).join("")}` : ""}
       ${tool.notes?.length ? `<h2>Weitere Hinweise</h2>${tool.notes.map((note) => `<p>${htmlEscape(note)}</p>`).join("")}` : ""}
+      ${tool.slug === "rollgeruest" ? `<p><a class="text-link" href="../../assets/tools/rollgeruest/Rollger%C3%BCst-Umfang_MV.pdf" download="Rollgerüst-Umfang_MV.pdf">Gerüstumfang ansehen (PDF)</a></p>` : ""}
       ${tool.sourceUrl ? `<p class="source-note">Weitere Originalangaben stammen aus der bestehenden Kleinanzeigen-Anzeige.</p>` : ""}
     </article>
     ${calculator(tool)}
