@@ -28,7 +28,6 @@ const htmlEscape = (value = "") =>
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
 
-const slugUrl = (slug) => `${siteBase}/werkzeuge/${slug}/`;
 const fromRoot = (pagePath) => {
   const parts = pagePath.split("/").filter(Boolean);
   return parts.length === 0 ? "." : Array(parts.length).fill("..").join("/");
@@ -108,7 +107,7 @@ function whatsAppUrl(message) {
 
 function toolCard(tool, featured = false) {
   const price = lowestPrice(tool);
-  const detailUrl = featured ? `./werkzeuge/${tool.slug}/index.html` : `./${tool.slug}/index.html`;
+  const detailUrl = featured ? `./werkzeuge/${tool.slug}/` : `./${tool.slug}/`;
   const assetPrefix = featured ? "./assets/" : "../assets/";
   const previewUrl = publicUrl(imageVariant(tool.images[0].src, 640)).replace("/assets/", assetPrefix);
   const previewSet = imageSet(tool.images[0].src).replaceAll("/assets/", assetPrefix);
@@ -242,7 +241,7 @@ function homePage() {
       <div class="cta-row">
         <a class="btn primary" href="tel:${business.phoneHref}">Jetzt anrufen</a>
         <a class="btn whatsapp" href="${whatsAppUrl("Hallo, ich interessiere mich für eine Werkzeugmiete.")}">WhatsApp</a>
-        <a class="btn ghost" href="${siteBase}/werkzeuge/">Alle Werkzeuge</a>
+        <a class="btn ghost" href="./werkzeuge/">Alle Werkzeuge</a>
       </div>
     </div>
     <div class="hero-logo">
@@ -253,7 +252,7 @@ function homePage() {
     <div class="section-heading">
       <span class="eyebrow">Oft angefragt</span>
       <h2>Beliebte Werkzeuge direkt oben.</h2>
-      <a class="text-link" href="${siteBase}/werkzeuge/">Zur kompletten Werkzeugübersicht</a>
+      <a class="text-link" href="./werkzeuge/">Zur kompletten Werkzeugübersicht</a>
     </div>
     <div class="tool-grid top-grid">${topTools.map((tool) => toolCard(tool, true)).join("")}</div>
   </section>
@@ -378,9 +377,10 @@ function toolGallery(tool) {
 
 function toolPage(tool) {
   const price = lowestPrice(tool);
+  const pagePrefix = fromRoot(`/werkzeuge/${tool.slug}/`);
   const body = `<section class="tool-detail-hero">
     <div>
-      <a class="back-link" href="${siteBase}/werkzeuge/">Alle Werkzeuge</a>
+      <a class="back-link" href="${pagePrefix}/werkzeuge/">Alle Werkzeuge</a>
       <span class="pill">${htmlEscape(tool.category)}</span>
       <h1>${tool.slug === "anwaermbrenner" ? "Anwärmbrenner<br>/ Gasbrenner" : htmlEscape(tool.heading || tool.title)}</h1>
       <p class="lead">${htmlEscape(tool.summary)}</p>

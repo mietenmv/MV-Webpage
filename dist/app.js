@@ -32,6 +32,12 @@ function makeFilePreviewLinksPortable() {
       element.setAttribute(attribute, portable);
     }
   });
+  document.querySelectorAll("a[href]").forEach((link) => {
+    const target = new URL(link.href, siteRoot);
+    if (target.protocol !== "file:" || !target.pathname.startsWith(siteRoot.pathname) || !target.pathname.endsWith("/")) return;
+    target.pathname = `${target.pathname}index.html`;
+    link.href = target.href;
+  });
 }
 
 function initKnowledgeNavigation() {
