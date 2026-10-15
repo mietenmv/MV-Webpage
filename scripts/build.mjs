@@ -131,6 +131,7 @@ function toolCard(tool, featured = false) {
 
 function contactSection(context = "", tool = null) {
   const isGardenMultiTool = ["sense-freischneider", "kultivator-bodenhacke", "rasenkantenschneider"].includes(tool?.slug);
+  const isPendingMessageForm = ["sense-freischneider", "kultivator-bodenhacke", "rasenkantenschneider", "zimmergeruest", "stromzange", "handstampfer", "anwaermbrenner"].includes(tool?.slug);
   const isDynamicDetailContact = ["stromzange", "anwaermbrenner", "handstampfer", "akku-schlagschrauber", "zimmergeruest", "sense-freischneider", "kultivator-bodenhacke", "rasenkantenschneider"].includes(tool?.slug);
   const contactCopy = isDynamicDetailContact
     ? "Schreib kurz, welches Werkzeug du brauchst und für welchen Zeitraum. Nutze dafür gerne die vorgefertigte Nachricht im Kontaktformular, mit wenigen Klicks sind alle benötigten Infos enthalten. Bei Abholung bitte Kaution, Mietpreis und Personalausweis einplanen."
@@ -145,8 +146,8 @@ function contactSection(context = "", tool = null) {
     "Sense / Freischneider",
     "Kultivator / Bodenhacke",
     "Rasenkantenschneider",
-    "Spül- und Befüllstation",
-    "Zimmergerüst",
+    "Spülstation / Befüllstation",
+    "Zimmergerüst / Malergerüst",
     "Akku-Schlagschrauber",
     "Stromzange",
     "Handstampfer 15 kg",
@@ -177,13 +178,13 @@ function contactSection(context = "", tool = null) {
         <label>Von<input type="date" name="start-date" data-start-date required></label>
         <label>Bis<input type="date" name="end-date" data-end-date required></label>
       </fieldset>
-      <label>Nachricht<textarea name="message" rows="6" placeholder="Die Nachricht wird nach Auswahl automatisch vorbereitet.">Hallo MV-Vermietung,
+      <label>Nachricht<textarea name="message" rows="6" placeholder="Die Nachricht wird nach Auswahl automatisch vorbereitet.">${isPendingMessageForm ? "" : `Hallo MV-Vermietung,
 
 ich interessiere mich für die Miete von ${htmlEscape(tool?.title || "Stromzange")}.
 
 Mein gewünschter Mietzeitraum wäre vom [TT.MM.JJ] bis zum [TT.MM.JJ] ([Anzahl Tage] Tage).
 
-Über eine kurze Rückmeldung würde ich mich freuen.</textarea></label>
+Über eine kurze Rückmeldung würde ich mich freuen.`}</textarea></label>
       <p class="form-error" data-form-error role="alert" hidden></p>
       <div class="form-actions">
         <button class="btn whatsapp" type="submit" data-channel="whatsapp">Per WhatsApp vorbereiten</button>
@@ -326,7 +327,7 @@ function calculator(tool) {
   }
   return `<section class="calculator" data-calculator data-tool="${jsonData(tool)}">
     <span class="eyebrow">Preisrechner</span>
-    <h2>${tool.slug === "anwaermbrenner" ? "Preisrechner Anwärmbrenner" : tool.slug === "stromzange" ? "Preisrechner Stromzange" : tool.slug === "zimmergeruest" ? "Preisrechner Zimmergerüst" : "Mietdauer auswählen"}</h2>
+    <h2>${tool.slug === "anwaermbrenner" ? "Preisrechner Anwärmbrenner" : tool.slug === "stromzange" ? "Preisrechner Stromzange" : tool.slug === "zimmergeruest" ? "Preisrechner Zimmergerüst / Malergerüst" : tool.slug === "spuelstation-solarthermie" ? "Preisrechner Spülstation / Befüllstation" : "Mietdauer auswählen"}</h2>
     <div class="calculator-grid">
       ${isGardenMultiTool
         ? `<input type="hidden" value="${htmlEscape(tool.options[0].id)}" data-option>

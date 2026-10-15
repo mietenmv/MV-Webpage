@@ -524,7 +524,7 @@ function initContactForms() {
     const isTreppenleiterContact = contactMode === "treppenleiter" || toolInput?.dataset.defaultTool === "Treppenleiter";
     const isHochentasterContact = contactMode === "hochentaster" || toolInput?.dataset.defaultTool === "Hochentaster";
     const isHeckenschereContact = contactMode === "heckenschere" || toolInput?.dataset.defaultTool === "Heckenschere";
-    const isSpuelContact = contactMode === "spuelstation" || toolInput?.dataset.defaultTool === "Spül- und Befüllstation";
+    const isSpuelContact = contactMode === "spuelstation" || toolInput?.dataset.defaultTool === "Spülstation / Befüllstation";
     const isStromzangeContact = contactMode === "stromzange";
     const isAnwaermbrennerContact = contactMode === "anwaermbrenner";
     const isHandstampferContact = contactMode === "handstampfer";
@@ -632,6 +632,11 @@ function initContactForms() {
 
     function createDraft() {
       if (isStromzangeContact || isAnwaermbrennerContact || isHandstampferContact || isZimmergeruestContact || isGardenMultiToolContact) {
+        const hasCompleteSelection = Boolean(
+          toolInput.value && deliveryInput?.value && startInput.value && endInput.value && endInput.value >= startInput.value &&
+          (!isGardenMultiToolContact || toolInput.value !== toolInput.dataset.defaultTool || rentalOptionInput?.value)
+        );
+        if (!hasCompleteSelection) return "Die Nachricht wird nach Auswahl automatisch vorbereitet.";
         const hasDateRange = Boolean(startInput.value && endInput.value);
         const start = hasDateRange ? formatDate(startInput.value) : "[TT.MM.JJ]";
         const end = hasDateRange ? formatDate(endInput.value) : "[TT.MM.JJ]";
@@ -681,7 +686,8 @@ function initContactForms() {
 
     function updateDraft() {
       if (messageInput.dataset.userEdited === "true") return;
-      messageInput.value = createDraft();
+      const draft = createDraft();
+      messageInput.value = draft === "Die Nachricht wird nach Auswahl automatisch vorbereitet." ? "" : draft;
     }
 
     function showError(message) {

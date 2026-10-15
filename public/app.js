@@ -294,6 +294,15 @@ function initAutoMessageContactForm(form) {
   const updateDraft = () => {
     if (messageInput.dataset.userEdited === "true") return;
     const isGardenMultifunction = ["sense-freischneider", "kultivator-bodenhacke", "rasenkantenschneider"].includes(form.dataset.contactMode);
+    const shouldWaitForCompleteSelection = ["sense-freischneider", "kultivator-bodenhacke", "rasenkantenschneider", "zimmergeruest", "stromzange", "handstampfer", "anwaermbrenner"].includes(form.dataset.contactMode);
+    const hasCompleteSelection = Boolean(
+      toolInput.value && deliveryInput.value && startInput.value && endInput.value && endInput.value >= startInput.value &&
+      (!isGardenMultifunction || toolInput.value !== defaultTool || rentalOptionInput?.value)
+    );
+    if (shouldWaitForCompleteSelection && !hasCompleteSelection) {
+      messageInput.value = "";
+      return;
+    }
     const hasDateRange = Boolean(startInput.value && endInput.value);
     const dates = hasDateRange
       ? `vom ${formatDate(startInput.value)} bis zum ${formatDate(endInput.value)} (${Math.round((new Date(`${endInput.value}T00:00:00`) - new Date(`${startInput.value}T00:00:00`)) / 86400000) + 1} Tage)`

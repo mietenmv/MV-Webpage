@@ -300,9 +300,10 @@ export const tools = [
   },
   {
     slug: "spuelstation-solarthermie",
-    title: "Spül- und Befüllstation",
-    seoTitle: "Spül- und Befüllstation",
-    heading: "Spülstation für Heizung & Solar",
+    title: "Spülstation / Befüllstation",
+    seoTitle: "Spülstation / Befüllstation",
+    seoDescription: "Spülstation / Befüllstation für Fußbodenheizungen, Wandheizungen und Solaranlagen. Geeignet zum Spülen, Befüllen und Entlüften geschlossener Heizkreise.",
+    heading: "Spülstation / Befüllstation",
     category: "Heizung/Solar",
     top: false,
     popularity: 64,
@@ -318,7 +319,7 @@ export const tools = [
     options: [
       {
         id: "standard",
-        label: "Spül- und Befüllstation",
+        label: "Spülstation / Befüllstation",
         dayPrice: 30,
         minimumDays: 1,
         tiers: []
@@ -327,7 +328,7 @@ export const tools = [
   },
   {
     slug: "zimmergeruest",
-    title: "Zimmergerüst",
+    title: "Zimmergerüst / Malergerüst",
     category: "Leiter & Gerüst",
     top: false,
     popularity: 58,
@@ -363,7 +364,7 @@ export const tools = [
     options: [
       {
         id: "standard",
-        label: "Zimmergerüst",
+        label: "Zimmergerüst / Malergerüst",
         dayPrice: 15,
         minimumDays: 1,
         tiers: []
