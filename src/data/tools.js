@@ -114,7 +114,7 @@ export const tools = [
     description:
       "Vorwärts laufende Rüttelplatte mit 28 cm Arbeitsbreite, 12 kN Verdichtungskraft und ca. 77 kg Gewicht. Gut geeignet für kleinere Flächen und private Bauprojekte.",
     specs: ["Arbeitsbreite: 28 cm", "Verdichtung: 12 kN", "Gewicht: ca. 77 kg"],
-    images: ["Ruettelplatte-01", "Ruettelplatte-02", "Ruettelplatte-03", "Ruettelplatte-04", "Ruettelplatte-05", "Ruettelplatte-06"].map((name, i) => ({ src: `/assets/tools/ruettelplatte/${name}.png`, alt: `Rüttelplatte 77 kg – Bild ${i + 1}` })),
+    images: ["Ruettelplatte-04", "Ruettelplatte-02", "Ruettelplatte-03", "Ruettelplatte-01", "Ruettelplatte-05", "Ruettelplatte-06"].map((name, i) => ({ src: `/assets/tools/ruettelplatte/${name}.png`, alt: `Rüttelplatte 77 kg – Bild ${i + 1}` })),
     options: [
       {
         id: "standard",
