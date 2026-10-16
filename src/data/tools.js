@@ -139,7 +139,7 @@ export const tools = [
     description:
       "Leistungsstarker Bosch GSH 11E für Arbeiten rund ums Haus und den Umbau. Inklusive passender Meißel, ideal für Abbruch- und Stemmarbeiten.",
     specs: ["Bosch GSH 11E", "Inklusive Meißel", "Transport im Koffer"],
-    images: ["Abbruchhamer-01", "Abbruchhamer-02", "Abbruchhamer-03", "Abbruchhamer-04", "Abbruchhamer-05"].map((name, i) => ({ src: `/assets/tools/abbruchhammer/${name}.png`, alt: `Abbruchhammer – Bild ${i + 1}` })),
+    images: ["Abbruchhamer-05", "Abbruchhamer-02", "Abbruchhamer-03", "Abbruchhamer-04", "Abbruchhamer-01"].map((name, i) => ({ src: `/assets/tools/abbruchhammer/${name}.png`, alt: `Abbruchhammer – Bild ${i + 1}` })),
     options: [
       {
         id: "standard",
@@ -359,7 +359,7 @@ export const tools = [
       "Für den Aufbau wird keine Haftung übernommen. Der Aufbau und die Nutzung müssen entsprechend der Aufbau- und Verwendungsanleitung erfolgen.",
       "Abholung und Anlieferung sind ausschließlich nach Absprache möglich."
     ],
-    images: [{ src: "/assets/brand/logo-mv-vermietung.png", alt: "MV-Vermietung – Platzhalter für Zimmergerüst-Fotos" }],
+    images: ["zimmergeruest-01", "zimmergeruest-02", "zimmergeruest-03", "zimmergeruest-04", "zimmergeruest-05"].map((name, i) => ({ src: `/assets/tools/zimmergeruest/${name}.jpg`, alt: `Zimmergerüst – Bild ${i + 1}` })),
     pricingMode: "staged",
     options: [
       {
